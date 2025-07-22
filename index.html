@@ -35,7 +35,7 @@
         .game-canvas {
             border-radius: 15px;
             border: 3px solid #8D6E63;
-            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 60%, #4CAF50 60%, #4CAF50 100%);
+            background: #87CEEB;
         }
         
         .add-sns-btn {
@@ -53,6 +53,40 @@
             font-size: 2rem;
             color: white;
             margin: 0 auto 1rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
+        
+        .upload-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+        
+        .profile-avatar:hover .upload-overlay {
+            display: flex;
         }
         
         .event-placeholder {
@@ -65,6 +99,19 @@
             justify-content: center;
             flex-direction: column;
             color: #FF6B35;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .event-placeholder:hover {
+            background: rgba(255, 107, 53, 0.2);
+            transform: scale(1.02);
+        }
+        
+        .event-image {
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         
         @media (max-width: 768px) {
@@ -80,9 +127,14 @@
         
         <!-- Profile Section -->
         <div class="tacos-card p-6 mb-6 text-center">
-            <div class="profile-avatar">
-                🌮
+            <div class="profile-avatar" onclick="uploadProfileImage()">
+                <span id="profileEmoji">🌮</span>
+                <img id="profileImage" style="display: none;">
+                <div class="upload-overlay">
+                    <i class="fas fa-camera"></i>
+                </div>
             </div>
+            <input type="file" id="profileImageInput" accept="image/*" style="display: none;">
             <h1 class="text-2xl font-bold text-gray-800 mb-1">鈴木 聖直</h1>
             <p class="text-gray-600 text-sm">Suzuki Sena</p>
         </div>
@@ -119,13 +171,16 @@
                 イベント情報
             </h2>
             
-            <div id="eventFlyer" class="event-placeholder">
+            <div id="eventFlyer" class="event-placeholder" onclick="uploadEventImage()">
                 <i class="fas fa-image text-4xl mb-2"></i>
-                <p class="text-center font-semibold">フライヤー画像をここに挿入</p>
-                <p class="text-sm text-center mt-1">HTMLファイルを編集して画像を追加できます</p>
-                <!-- フライヤー画像を挿入したい場合、以下のコメントアウトを外して画像URLを設定 -->
-                <!-- <img src="画像のURL" alt="イベントフライヤー" class="w-full max-w-sm rounded-lg"> -->
+                <p class="text-center font-semibold">フライヤー画像をアップロード</p>
+                <p class="text-sm text-center mt-1">タップして画像を選択</p>
             </div>
+            <input type="file" id="eventImageInput" accept="image/*" style="display: none;">
+            
+            <button id="deleteEventBtn" onclick="deleteEventImage()" class="mt-3 bg-red-500 text-white px-4 py-2 rounded-lg text-sm" style="display: none;">
+                <i class="fas fa-trash mr-1"></i>画像を削除
+            </button>
         </div>
 
         <!-- Tacos Run Game Section -->
@@ -168,6 +223,90 @@
     </div>
 
     <script>
+        // Profile Image Management
+        function uploadProfileImage() {
+            document.getElementById('profileImageInput').click();
+        }
+
+        document.getElementById('profileImageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+                    document.getElementById('profileImage').src = imageData;
+                    document.getElementById('profileImage').style.display = 'block';
+                    document.getElementById('profileEmoji').style.display = 'none';
+                    
+                    // Save to localStorage
+                    localStorage.setItem('profileImage', imageData);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Event Image Management
+        function uploadEventImage() {
+            document.getElementById('eventImageInput').click();
+        }
+
+        document.getElementById('eventImageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+                    const eventFlyer = document.getElementById('eventFlyer');
+                    eventFlyer.innerHTML = `<img src="${imageData}" alt="イベントフライヤー" class="event-image">`;
+                    eventFlyer.onclick = null;
+                    eventFlyer.style.cursor = 'default';
+                    
+                    document.getElementById('deleteEventBtn').style.display = 'inline-block';
+                    
+                    // Save to localStorage
+                    localStorage.setItem('eventImage', imageData);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function deleteEventImage() {
+            const eventFlyer = document.getElementById('eventFlyer');
+            eventFlyer.innerHTML = `
+                <i class="fas fa-image text-4xl mb-2"></i>
+                <p class="text-center font-semibold">フライヤー画像をアップロード</p>
+                <p class="text-sm text-center mt-1">タップして画像を選択</p>
+            `;
+            eventFlyer.onclick = uploadEventImage;
+            eventFlyer.style.cursor = 'pointer';
+            
+            document.getElementById('deleteEventBtn').style.display = 'none';
+            
+            // Remove from localStorage
+            localStorage.removeItem('eventImage');
+        }
+
+        // Load saved images on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load profile image
+            const savedProfileImage = localStorage.getItem('profileImage');
+            if (savedProfileImage) {
+                document.getElementById('profileImage').src = savedProfileImage;
+                document.getElementById('profileImage').style.display = 'block';
+                document.getElementById('profileEmoji').style.display = 'none';
+            }
+            
+            // Load event image
+            const savedEventImage = localStorage.getItem('eventImage');
+            if (savedEventImage) {
+                const eventFlyer = document.getElementById('eventFlyer');
+                eventFlyer.innerHTML = `<img src="${savedEventImage}" alt="イベントフライヤー" class="event-image">`;
+                eventFlyer.onclick = null;
+                eventFlyer.style.cursor = 'default';
+                document.getElementById('deleteEventBtn').style.display = 'inline-block';
+            }
+        });
+
         // Game Variables
         let canvas, ctx;
         let gameRunning = false;
@@ -373,8 +512,9 @@
             // Clear canvas
             ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             
-            // Draw background
-            drawBackground();
+            // Draw simple background
+            ctx.fillStyle = '#87CEEB';
+            ctx.fillRect(0, 0, CANVAS_WIDTH, GROUND_Y);
             
             // Draw ground
             ctx.fillStyle = '#8D6E63';
@@ -385,15 +525,6 @@
             
             // Draw items
             drawItems();
-        }
-
-        function drawBackground() {
-            // Sky
-            const gradient = ctx.createLinearGradient(0, 0, 0, GROUND_Y);
-            gradient.addColorStop(0, '#87CEEB');
-            gradient.addColorStop(1, '#98D8E8');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, CANVAS_WIDTH, GROUND_Y);
         }
 
         function drawPlayer() {
@@ -408,7 +539,7 @@
 
         function drawItems() {
             items.forEach(item => {
-                ctx.font = '16px Arial';
+                ctx.font = '18px Arial';
                 ctx.textAlign = 'center';
                 ctx.fillText(item.emoji, item.x + item.width/2, item.y + item.height - 2);
             });
@@ -416,7 +547,10 @@
 
         function drawInitialScreen() {
             ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-            drawBackground();
+            
+            // Draw simple background
+            ctx.fillStyle = '#87CEEB';
+            ctx.fillRect(0, 0, CANVAS_WIDTH, GROUND_Y);
             
             // Draw ground
             ctx.fillStyle = '#8D6E63';
