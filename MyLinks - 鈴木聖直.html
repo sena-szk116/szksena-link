@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<!-- saved from url=(0132)https://gensparkpublicblob.blob.core.windows.net/user-upload-image/page/toolu_01VmpxaNp8G4AQQZXzE7Ygnw/mylinks_responsive_fixed.html -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyLinks - 鈴木聖直</title>
+    <link href="./MyLinks - 鈴木聖直_files/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./MyLinks - 鈴木聖直_files/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FF6B35 100%);
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+        }
+        
+        .tacos-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 107, 53, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .sns-button {
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            transition: all 0.3s ease;
+            border-radius: 15px;
+        }
+        
+        .sns-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        .game-canvas {
+            border-radius: 15px;
+            border: 3px solid #8D6E63;
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 60%, #4CAF50 60%, #4CAF50 100%);
+        }
+        
+        .add-sns-btn {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+        }
+        
+        .profile-avatar {
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+        
+        .event-placeholder {
+            border: 2px dashed #FF6B35;
+            background: rgba(255, 107, 53, 0.1);
+            border-radius: 15px;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #FF6B35;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+    </style>
+<style>
+    .genspark-notice-dialog {
+      display: flex;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 10001;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .genspark-notice-content {
+      background-color: white;
+      border-radius: 8px;
+      max-width: 600px;
+      width: 90%;
+      box-sizing: border-box;
+      padding: 10px 30px 30px 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-size: 16px;
+    }
+
+    .genspark-notice-title {
+      color: #000;
+      font-family: Arial;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 150%; 
+    }
+
+    .genspark-notice-list {
+      margin: 24px 0;
+      
+      color: #606366;
+      font-family: Arial;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%;
+      padding-left: 12px;
+    }
+
+    .genspark-notice-list li {
+      margin-bottom: 12px;
+      list-style-type: disc;
+    }
+
+    .genspark-notice-list li a {
+      color: #606366;
+      text-decoration: underline;
+    }
+
+    .genspark-notice-checkbox {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      gap: 10px;
+
+      color: #232425;
+
+      font-family: Arial;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+
+    .genspark-notice-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+      
+    .genspark-notice-ok {
+      color: #232425;
+
+      text-align: center;
+      font-family: Arial;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 150%; 
+
+      cursor: pointer;
+      display: flex;
+      height: 40px;
+      padding: 6px 14px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      align-self: stretch;
+      border-radius: 8px;
+      border: 1px solid #000;
+      box-sizing: border-box;
+      width: 100%;
+    }
+  </style></head>
+<body class="min-h-screen">
+    <div class="container mx-auto py-4 px-2 max-w-md">
+        
+        <!-- Profile Section -->
+        <div class="tacos-card p-6 mb-6 text-center">
+            <div class="profile-avatar">
+                🌮
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800 mb-1">鈴木 聖直</h1>
+            <p class="text-gray-600 text-sm">Suzuki Sena</p>
+        </div>
+
+        <!-- SNS Links Section -->
+        <div class="tacos-card p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-share-alt mr-2 text-orange-500"></i>
+                SNS Links
+            </h2>
+            
+            <div class="space-y-3">
+                <a href="https://instagram.com/ayrton_jpn" target="_blank" class="sns-button text-white p-4 rounded-lg flex items-center justify-center w-full block">
+                    <i class="fab fa-instagram mr-3 text-xl"></i>
+                    <span class="font-semibold">@ayrton_jpn</span>
+                </a>
+                
+                <a href="https://instagram.com/diner_foodparty" target="_blank" class="sns-button text-white p-4 rounded-lg flex items-center justify-center w-full block">
+                    <i class="fab fa-instagram mr-3 text-xl"></i>
+                    <span class="font-semibold">@diner_foodparty</span>
+                </a>
+            </div>
+            
+            <button onclick="addNewSNS()" class="add-sns-btn text-white p-3 rounded-lg mt-4 w-full flex items-center justify-center">
+                <i class="fas fa-plus mr-2"></i>
+                <span>SNSを追加</span>
+            </button>
+        </div>
+
+        <!-- Event Information Section -->
+        <div class="tacos-card p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-calendar-alt mr-2 text-orange-500"></i>
+                イベント情報
+            </h2>
+            
+            <div id="eventFlyer" class="event-placeholder">
+                <i class="fas fa-image text-4xl mb-2"></i>
+                <p class="text-center font-semibold">フライヤー画像をここに挿入</p>
+                <p class="text-sm text-center mt-1">HTMLファイルを編集して画像を追加できます</p>
+                <!-- フライヤー画像を挿入したい場合、以下のコメントアウトを外して画像URLを設定 -->
+                <!-- <img src="画像のURL" alt="イベントフライヤー" class="w-full max-w-sm rounded-lg"> -->
+            </div>
+        </div>
+
+        <!-- Tacos Run Game Section -->
+        <div class="tacos-card p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-gamepad mr-2 text-orange-500"></i>
+                🌮 タコスラン - 3段ジャンプで飛べ！
+            </h2>
+            
+            <div class="text-center mb-4">
+                <div class="bg-orange-100 rounded-lg p-3 mb-3">
+                    <p class="text-sm text-orange-800"><strong>遊び方:</strong></p>
+                    <p class="text-xs text-orange-700">画面をタップしてジャンプ！最大3回まで連続ジャンプ可能</p>
+                </div>
+                
+                <div class="flex justify-between text-sm bg-gray-100 rounded-lg p-2 mb-3">
+                    <span>スコア: <span id="gameScore" class="font-bold text-orange-600">0</span></span>
+                    <span>ハイスコア: <span id="highScore" class="font-bold text-orange-600">0</span></span>
+                </div>
+            </div>
+
+            <canvas id="gameCanvas" class="game-canvas w-full" width="350" height="200"></canvas>
+            
+            <div class="mt-4 flex flex-wrap gap-2 justify-center">
+                <button id="startButton" onclick="startGame()" class="bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-semibold">
+                    <i class="fas fa-play mr-1"></i>ゲーム開始
+                </button>
+                <button id="resetButton" onclick="resetGame()" class="bg-red-500 text-white px-4 py-2 rounded-lg text-sm font-semibold">
+                    <i class="fas fa-redo mr-1"></i>リセット
+                </button>
+            </div>
+            
+            <div id="gameOverScreen" class="text-center mt-4 hidden">
+                <div class="bg-red-100 rounded-lg p-3">
+                    <h3 class="font-bold text-red-800">ゲームオーバー!</h3>
+                    <p class="text-sm text-red-700">最終スコア: <span id="finalScore" class="font-bold"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game Variables
+        let canvas, ctx;
+        let gameRunning = false;
+        let gameLoop = null;
+        let score = 0;
+        let highScore = parseInt(localStorage.getItem('tacosHighScore') || '0');
+        
+        // Game Objects
+        let player = {
+            x: 50,
+            y: 150,
+            width: 30,
+            height: 30,
+            velocityY: 0,
+            jumpCount: 0,
+            maxJumps: 3,
+            onGround: true
+        };
+        
+        let items = [];
+        let gameSpeed = 2;
+        
+        // Game Constants
+        const GRAVITY = 0.6;
+        const JUMP_FORCE = -10;
+        const GROUND_Y = 170;
+        const CANVAS_WIDTH = 350;
+        const CANVAS_HEIGHT = 200;
+
+        // Initialize Game
+        document.addEventListener('DOMContentLoaded', function() {
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            canvas.width = CANVAS_WIDTH;
+            canvas.height = CANVAS_HEIGHT;
+            
+            // Touch events for mobile
+            canvas.addEventListener('touchstart', handleTouch, { passive: false });
+            canvas.addEventListener('click', handleClick);
+            
+            updateHighScoreDisplay();
+            drawInitialScreen();
+        });
+
+        function handleTouch(e) {
+            e.preventDefault();
+            if (gameRunning) {
+                jump();
+            }
+        }
+        
+        function handleClick(e) {
+            if (gameRunning) {
+                jump();
+            }
+        }
+
+        function jump() {
+            if (player.jumpCount < player.maxJumps) {
+                player.velocityY = JUMP_FORCE;
+                player.jumpCount++;
+                player.onGround = false;
+            }
+        }
+
+        function startGame() {
+            if (gameRunning) return;
+            
+            gameRunning = true;
+            score = 0;
+            gameSpeed = 2;
+            items = [];
+            
+            // Reset player
+            player.x = 50;
+            player.y = GROUND_Y - player.height;
+            player.velocityY = 0;
+            player.jumpCount = 0;
+            player.onGround = true;
+            
+            document.getElementById('startButton').disabled = true;
+            document.getElementById('gameOverScreen').classList.add('hidden');
+            
+            gameLoop = setInterval(updateGame, 1000/60); // 60 FPS
+        }
+
+        function resetGame() {
+            gameRunning = false;
+            if (gameLoop) {
+                clearInterval(gameLoop);
+                gameLoop = null;
+            }
+            
+            score = 0;
+            updateScoreDisplay();
+            document.getElementById('startButton').disabled = false;
+            document.getElementById('gameOverScreen').classList.add('hidden');
+            
+            drawInitialScreen();
+        }
+
+        function updateGame() {
+            if (!gameRunning) return;
+            
+            // Update player physics
+            updatePlayer();
+            
+            // Update items
+            updateItems();
+            
+            // Generate new items
+            generateItems();
+            
+            // Check collisions
+            checkCollisions();
+            
+            // Update score
+            score += 1;
+            updateScoreDisplay();
+            
+            // Draw everything
+            draw();
+        }
+
+        function updatePlayer() {
+            // Apply gravity
+            if (!player.onGround) {
+                player.velocityY += GRAVITY;
+            }
+            
+            // Update position
+            player.y += player.velocityY;
+            
+            // Ground collision
+            if (player.y >= GROUND_Y - player.height) {
+                player.y = GROUND_Y - player.height;
+                player.velocityY = 0;
+                player.jumpCount = 0;
+                player.onGround = true;
+            }
+        }
+
+        function updateItems() {
+            for (let i = items.length - 1; i >= 0; i--) {
+                items[i].x -= gameSpeed;
+                
+                // Remove items that went off screen
+                if (items[i].x + items[i].width < 0) {
+                    items.splice(i, 1);
+                }
+            }
+        }
+
+        function generateItems() {
+            if (Math.random() < 0.02) { // 2% chance each frame
+                let itemType = Math.random();
+                let item = {
+                    x: CANVAS_WIDTH,
+                    width: 20,
+                    height: 20,
+                    type: itemType < 0.6 ? 'coin' : itemType < 0.9 ? 'taco' : 'star'
+                };
+                
+                // Set position and value based on type
+                if (item.type === 'coin') {
+                    item.y = GROUND_Y - 40 - Math.random() * 60;
+                    item.points = 10;
+                    item.emoji = '🪙';
+                } else if (item.type === 'taco') {
+                    item.y = GROUND_Y - 80 - Math.random() * 40;
+                    item.points = 50;
+                    item.emoji = '🌮';
+                } else {
+                    item.y = GROUND_Y - 120 - Math.random() * 20;
+                    item.points = 100;
+                    item.emoji = '⭐';
+                }
+                
+                items.push(item);
+            }
+        }
+
+        function checkCollisions() {
+            for (let i = items.length - 1; i >= 0; i--) {
+                let item = items[i];
+                
+                // Simple rectangle collision
+                if (player.x < item.x + item.width &&
+                    player.x + player.width > item.x &&
+                    player.y < item.y + item.height &&
+                    player.y + player.height > item.y) {
+                    
+                    // Collect item
+                    score += item.points;
+                    items.splice(i, 1);
+                }
+            }
+        }
+
+        function draw() {
+            // Clear canvas
+            ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            
+            // Draw background
+            drawBackground();
+            
+            // Draw ground
+            ctx.fillStyle = '#8D6E63';
+            ctx.fillRect(0, GROUND_Y, CANVAS_WIDTH, CANVAS_HEIGHT - GROUND_Y);
+            
+            // Draw player
+            drawPlayer();
+            
+            // Draw items
+            drawItems();
+        }
+
+        function drawBackground() {
+            // Sky
+            const gradient = ctx.createLinearGradient(0, 0, 0, GROUND_Y);
+            gradient.addColorStop(0, '#87CEEB');
+            gradient.addColorStop(1, '#98D8E8');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, CANVAS_WIDTH, GROUND_Y);
+        }
+
+        function drawPlayer() {
+            ctx.fillStyle = '#FF6B35';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            
+            // Draw taco emoji
+            ctx.font = '24px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('🌮', player.x + player.width/2, player.y + player.height - 5);
+        }
+
+        function drawItems() {
+            items.forEach(item => {
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(item.emoji, item.x + item.width/2, item.y + item.height - 2);
+            });
+        }
+
+        function drawInitialScreen() {
+            ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            drawBackground();
+            
+            // Draw ground
+            ctx.fillStyle = '#8D6E63';
+            ctx.fillRect(0, GROUND_Y, CANVAS_WIDTH, CANVAS_HEIGHT - GROUND_Y);
+            
+            // Draw player at starting position
+            player.y = GROUND_Y - player.height;
+            drawPlayer();
+            
+            // Draw start message
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 18px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('🌮 タコスラン', CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 20);
+            
+            ctx.font = '14px Arial';
+            ctx.fillText('ゲーム開始ボタンを押してね！', CANVAS_WIDTH/2, CANVAS_HEIGHT/2 + 10);
+        }
+
+        function updateScoreDisplay() {
+            document.getElementById('gameScore').textContent = score;
+        }
+
+        function updateHighScoreDisplay() {
+            document.getElementById('highScore').textContent = highScore;
+        }
+
+        function gameOver() {
+            gameRunning = false;
+            if (gameLoop) {
+                clearInterval(gameLoop);
+                gameLoop = null;
+            }
+            
+            // Update high score
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('tacosHighScore', highScore.toString());
+                updateHighScoreDisplay();
+            }
+            
+            // Show game over screen
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('gameOverScreen').classList.remove('hidden');
+            document.getElementById('startButton').disabled = false;
+        }
+
+        // SNS Management
+        function addNewSNS() {
+            const name = prompt('SNSアカウント名を入力してください (例: @username):');
+            const url = prompt('URLを入力してください:');
+            
+            if (name && url) {
+                const snsContainer = document.querySelector('.space-y-3');
+                const newSNS = document.createElement('a');
+                newSNS.href = url;
+                newSNS.target = '_blank';
+                newSNS.className = 'sns-button text-white p-4 rounded-lg flex items-center justify-center w-full block';
+                newSNS.innerHTML = `
+                    <i class="fas fa-link mr-3 text-xl"></i>
+                    <span class="font-semibold">${name}</span>
+                `;
+                
+                snsContainer.appendChild(newSNS);
+            }
+        }
+    </script>
+
+
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDuCGLtt34S55q1%2BqFkwEdt%2FyYMZQ232cEd2UtQeDs%2B8rdw59YuvVn%2FsQi72GCPatwJIdL5LnHr6H63NW3BHEBuTA1wL8%2BnXA7%2BcpPIAPq6w0YFh%2Fms0icGH4ia4dC2LXGfBEziyDru5uqEHUmyV85ftu8tkbyYma1qgQ%2B8XapKPoAAjYUKrtOnfl6FezEh5tIgJdNJGbWwwCuPOUz5O9PEmUHoqdLbZ%2FujFzDcoFWs3vU33fdnODmW5JBdKXrkfQ0rdV%2BvYySNHXef5WM%2Bb3i7dw8yOBkXb%2F2ncb18z6vVbIT8bSBEiP9%2BGkt9UuV%2B5LXNmd8v%2BU5f0r5aRN5WBXmxnRDDqSJrdu8n4b6e0VKtMf7FnQyx3rgl190rLFhn%2BlclIs4bwaHjlCqt6GHlps9UPb6p1Jtg1WH6%2FO%2FO%2BLsbX0WyuMNlL14Vre4cMMWJD5goLzvVPxsKiu2EoquB628IvjP4BLvvxmSSOuPlcVOuNeqQH2%2FiZYNJIZuLnti5%2B8Ew%3D%3D";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDuCGLtt34S55q1+qFkwEdt/yYMZQ232cEd2UtQeDs+8rdw59YuvVn/sQi72GCPatwJIdL5LnHr6H63NW3BHEBuTA1wL8+nXA7+cpPIAPq6w0YFh/ms0icGH4ia4dC2LXGfBEziyDru5uqEHUmyV85ftu8tkbyYma1qgQ+8XapKPoAAjYUKrtOnfl6FezEh5tIgJdNJGbWwwCuPOUz5O9PEmUHoqdLbZ/ujFzDcoFWs3vU33fdnODmW5JBdKXrkfQ0rdV+vYySNHXef5WM+b3i7dw8yOBkXb/2ncb18z6vVbIT8bSBEiP9+Gkt9UuV+5LXNmd8v+U5f0r5aRN5WBXmxnRDDqSJrdu8n4b6e0VKtMf7FnQyx3rgl190rLFhn+lclIs4bwaHjlCqt6GHlps9UPb6p1Jtg1WH6/O/O+LsbX0WyuMNlL14Vre4cMMWJD5goLzvVPxsKiu2EoquB628IvjP4BLvvxmSSOuPlcVOuNeqQH2/iZYNJIZuLnti5+8Ew==";
+    </script>
+    
+    <script id="html_notice_dialog_script" src="./MyLinks - 鈴木聖直_files/notice_dialog.js.ダウンロード"></script>
+    </body></html>
