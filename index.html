@@ -13,16 +13,16 @@
             min-height: 100vh;
         }
         
-        .space-card {
+        .tacos-card {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(255, 107, 53, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
         
         .sns-button {
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
             transition: all 0.3s ease;
             border-radius: 15px;
         }
@@ -34,98 +34,78 @@
         
         .game-canvas {
             border-radius: 15px;
-            border: 2px solid rgba(255, 107, 53, 0.5);
-            background: linear-gradient(to bottom, #0a0a1a 0%, #1a1a2e 100%);
-            width: 100%;
-            max-width: 400px;
-            height: 300px;
+            border: 3px solid #FF6B35;
+            background: linear-gradient(to bottom, #000428 0%, #004e92 100%);
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .add-sns-btn {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
         }
         
         .profile-avatar {
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
-            width: 100px;
-            height: 100px;
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: white;
             margin: 0 auto 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
         
-        .profile-avatar:hover {
-            transform: scale(1.05);
-        }
-        
-        .profile-image {
+        .profile-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 50%;
         }
         
-        .game-ui {
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .level-bar {
-            background: rgba(255, 255, 255, 0.2);
-            height: 8px;
-            border-radius: 4px;
+        .flyer-container {
+            position: relative;
+            border-radius: 15px;
             overflow: hidden;
+            background: rgba(0, 0, 0, 0.3);
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .level-progress {
-            background: linear-gradient(90deg, #ff6b35, #f7931e);
-            height: 100%;
-            transition: width 0.3s ease;
+        .flyer-image {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 15px;
         }
         
-        .powerup-indicator {
-            display: inline-block;
-            background: rgba(255, 107, 53, 0.2);
-            border: 1px solid #ff6b35;
-            border-radius: 8px;
-            padding: 4px 8px;
-            margin: 2px;
-            font-size: 12px;
-            color: #ff6b35;
-        }
-        
-        .achievement-popup {
+        .star-bg {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            transform: translateX(300px);
-            transition: transform 0.5s ease;
-            z-index: 1000;
-        }
-        
-        .achievement-popup.show {
-            transform: translateX(0);
-        }
-        
-        @keyframes starTwinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
         }
         
         .star {
             position: absolute;
-            color: white;
-            animation: starTwinkle 2s infinite;
+            background: white;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
         }
         
         @media (max-width: 768px) {
@@ -133,29 +113,59 @@
                 padding-left: 1rem;
                 padding-right: 1rem;
             }
+            
             .game-canvas {
-                height: 250px;
+                width: 100% !important;
+                height: 200px !important;
             }
+            
+            .flyer-image {
+                max-height: 400px;
+            }
+        }
+        
+        .game-info {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            color: white;
+        }
+        
+        .progress-bar {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
         }
     </style>
 </head>
 <body class="min-h-screen">
+    <div class="star-bg" id="starBg"></div>
+    
     <div class="container mx-auto py-4 px-2 max-w-md">
         
         <!-- Profile Section -->
-        <div class="space-card p-6 mb-6 text-center">
-            <div class="profile-avatar" onclick="uploadProfileImage()" id="profileAvatar">
-                <span id="avatarEmoji">🌮</span>
-                <input type="file" id="profileImageInput" accept="image/*" style="display: none;" onchange="handleProfileImageUpload(event)">
+        <div class="tacos-card p-6 mb-6 text-center">
+            <div class="profile-avatar" onclick="uploadProfileImage()">
+                <span id="profileEmoji">🌮</span>
+                <img id="profileImage" style="display: none;" alt="プロフィール画像">
             </div>
             <h1 class="text-2xl font-bold text-white mb-1">鈴木 聖直</h1>
             <p class="text-gray-300 text-sm">Suzuki Sena</p>
         </div>
 
         <!-- SNS Links Section -->
-        <div class="space-card p-6 mb-6">
+        <div class="tacos-card p-6 mb-6">
             <h2 class="text-xl font-bold text-white mb-4 flex items-center">
-                <i class="fas fa-share-alt mr-2 text-orange-400"></i>
+                <i class="fas fa-share-alt mr-2 text-orange-500"></i>
                 SNS Links
             </h2>
             
@@ -170,97 +180,90 @@
                     <span class="font-semibold">@diner_foodparty</span>
                 </a>
             </div>
+            
+            <button onclick="addNewSNS()" class="add-sns-btn text-white p-3 rounded-lg mt-4 w-full flex items-center justify-center">
+                <i class="fas fa-plus mr-2"></i>
+                <span>SNSを追加</span>
+            </button>
         </div>
 
         <!-- Event Information Section -->
-        <div class="space-card p-6 mb-6">
+        <div class="tacos-card p-6 mb-6">
             <h2 class="text-xl font-bold text-white mb-4 flex items-center">
-                <i class="fas fa-calendar-alt mr-2 text-orange-400"></i>
+                <i class="fas fa-calendar-alt mr-2 text-orange-500"></i>
                 イベント情報
             </h2>
             
-            <div class="text-center">
-                <img src="https://page.gensparksite.com/v1/base64_upload/8d56eb2b63ba833c4411df44f14eddda" alt="TACOS DINER - AUGUST 24, 2025" class="w-full max-w-sm rounded-lg mx-auto shadow-lg">
+            <div class="flyer-container">
+                <img src="https://page.gensparksite.com/v1/base64_upload/8d56eb2b63ba833c4411df44f14eddda" 
+                     alt="TACOS DINER - AUGUST 24, 2025" 
+                     class="flyer-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div style="display: none; color: white; text-center; padding: 20px;">
+                    <i class="fas fa-image text-4xl mb-4 text-orange-500"></i>
+                    <h3 class="text-xl font-bold mb-2">TACOS DINER</h3>
+                    <p class="text-lg">AUGUST 24, 2025</p>
+                    <p class="text-sm mt-2">TACO PLANET - SPACEPORT DRIVE</p>
+                </div>
             </div>
         </div>
 
-        <!-- Space Adventure Game Section -->
-        <div class="space-card p-6">
+        <!-- Spaceship Taco Collection Game Section -->
+        <div class="tacos-card p-6">
             <h2 class="text-xl font-bold text-white mb-4 flex items-center">
-                <i class="fas fa-rocket mr-2 text-orange-400"></i>
-                🚀 TACO PLANET アドベンチャー
+                <i class="fas fa-rocket mr-2 text-orange-500"></i>
+                🚀 宇宙船タコス収集 - TACO PLANET への旅
             </h2>
             
-            <!-- Game UI -->
-            <div class="game-ui text-white text-sm">
-                <div class="flex justify-between items-center mb-2">
-                    <span>レベル: <span id="gameLevel" class="font-bold text-orange-400">1</span></span>
-                    <span>ライフ: <span id="gameLife" class="font-bold text-red-400">❤️❤️❤️</span></span>
+            <div class="game-info">
+                <div class="flex justify-between text-sm mb-2">
+                    <span>ステージ: <span id="currentStage" class="font-bold text-orange-400">1</span>/10</span>
+                    <span>レベル: <span id="playerLevel" class="font-bold text-orange-400">1</span></span>
                 </div>
-                <div class="flex justify-between items-center mb-2">
-                    <span>スコア: <span id="gameScore" class="font-bold text-yellow-400">0</span></span>
-                    <span>ハイスコア: <span id="highScore" class="font-bold text-purple-400">0</span></span>
+                <div class="progress-bar mb-2">
+                    <div id="stageProgress" class="progress-fill"></div>
                 </div>
-                <div class="level-bar mb-2">
-                    <div class="level-progress" id="levelProgress" style="width: 0%"></div>
+                <div class="flex justify-between text-sm">
+                    <span>スコア: <span id="gameScore" class="font-bold text-orange-400">0</span></span>
+                    <span>ハイスコア: <span id="highScore" class="font-bold text-orange-400">0</span></span>
                 </div>
-                <div id="powerups" class="text-xs"></div>
             </div>
 
-            <canvas id="gameCanvas" class="game-canvas mx-auto"></canvas>
+            <canvas id="gameCanvas" class="game-canvas w-full" width="350" height="200"></canvas>
             
             <div class="mt-4 flex flex-wrap gap-2 justify-center">
-                <button id="startButton" onclick="startGame()" class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
-                    <i class="fas fa-play mr-1"></i>ゲーム開始
+                <button id="startButton" onclick="startGame()" class="bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-semibold">
+                    <i class="fas fa-play mr-1"></i>開始
                 </button>
-                <button id="pauseButton" onclick="togglePause()" class="bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-yellow-700 transition-colors" disabled>
-                    <i class="fas fa-pause mr-1"></i>ポーズ
+                <button id="pauseButton" onclick="pauseGame()" class="bg-yellow-500 text-white px-4 py-2 rounded-lg text-sm font-semibold" disabled>
+                    <i class="fas fa-pause mr-1"></i>一時停止
                 </button>
-                <button id="resetButton" onclick="resetGame()" class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition-colors">
+                <button id="resetButton" onclick="resetGame()" class="bg-red-500 text-white px-4 py-2 rounded-lg text-sm font-semibold">
                     <i class="fas fa-redo mr-1"></i>リセット
                 </button>
             </div>
             
-            <div class="text-center mt-4">
-                <div class="bg-gray-800 rounded-lg p-3">
-                    <p class="text-xs text-gray-300 mb-2"><strong>操作方法:</strong></p>
-                    <p class="text-xs text-gray-400">タップ：ジャンプ（最大3回）<br>長押し：チャージジャンプ</p>
-                </div>
-            </div>
-            
             <div id="gameOverScreen" class="text-center mt-4 hidden">
-                <div class="bg-red-900 bg-opacity-80 rounded-lg p-4">
-                    <h3 class="font-bold text-red-300 text-lg mb-2">ミッション失敗!</h3>
-                    <p class="text-sm text-red-200">到達レベル: <span id="finalLevel" class="font-bold"></span></p>
-                    <p class="text-sm text-red-200">最終スコア: <span id="finalScore" class="font-bold"></span></p>
+                <div class="bg-red-900 bg-opacity-80 rounded-lg p-4 text-white">
+                    <h3 class="font-bold text-xl mb-2">ゲームオーバー!</h3>
+                    <p class="text-sm mb-2">到達ステージ: <span id="finalStage" class="font-bold text-orange-400"></span></p>
+                    <p class="text-sm">最終スコア: <span id="finalScore" class="font-bold text-orange-400"></span></p>
                 </div>
             </div>
             
-            <div id="levelCompleteScreen" class="text-center mt-4 hidden">
-                <div class="bg-green-900 bg-opacity-80 rounded-lg p-4">
-                    <h3 class="font-bold text-green-300 text-lg mb-2">レベルクリア!</h3>
-                    <p class="text-sm text-green-200">ボーナス: <span id="levelBonus" class="font-bold"></span>pts</p>
-                    <button onclick="nextLevel()" class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold mt-2">
-                        次のレベルへ
-                    </button>
+            <div id="stageClearScreen" class="text-center mt-4 hidden">
+                <div class="bg-green-900 bg-opacity-80 rounded-lg p-4 text-white">
+                    <h3 class="font-bold text-xl mb-2">ステージクリア!</h3>
+                    <p class="text-sm mb-2">次のステージへ進みます...</p>
+                    <div class="progress-bar">
+                        <div id="nextStageProgress" class="progress-fill"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Achievement Popup -->
-    <div id="achievementPopup" class="achievement-popup">
-        <div class="flex items-center">
-            <i class="fas fa-trophy mr-2"></i>
-            <div>
-                <div class="font-bold">アチーブメント達成!</div>
-                <div id="achievementText" class="text-sm"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Background Stars -->
-    <div id="backgroundStars"></div>
+    <input type="file" id="profileImageInput" accept="image/*" style="display: none;" onchange="handleProfileImageUpload(event)">
 
     <script>
         // Game Variables
@@ -269,107 +272,102 @@
         let gamePaused = false;
         let gameLoop = null;
         let score = 0;
-        let level = 1;
-        let life = 3;
-        let levelProgress = 0;
-        let highScore = parseInt(localStorage.getItem('spaceAdventureHighScore') || '0');
+        let highScore = parseInt(localStorage.getItem('tacosHighScore') || '0');
+        let currentStage = 1;
+        let playerLevel = 1;
+        let stageProgress = 0;
+        let maxStages = 10;
         
         // Game Objects
         let player = {
             x: 50,
-            y: 200,
-            width: 30,
-            height: 30,
+            y: 150,
+            width: 25,
+            height: 25,
             velocityY: 0,
             jumpCount: 0,
             maxJumps: 3,
             onGround: true,
-            charging: false,
-            chargeTime: 0,
-            invulnerable: 0
+            health: 100,
+            shields: 0
         };
         
         let items = [];
-        let enemies = [];
+        let obstacles = [];
+        let powerUps = [];
         let particles = [];
-        let powerups = [];
-        let backgrounds = [];
         let gameSpeed = 2;
-        let levelTargetScore = 1000;
-        
-        // Powerup system
-        let activePowerups = {
-            shield: 0,
-            speed: 0,
-            multiJump: 0,
-            magnet: 0
-        };
-        
-        // Achievement system
-        let achievements = [];
-        let totalJumps = 0;
-        let totalItemsCollected = 0;
+        let baseGameSpeed = 2;
         
         // Game Constants
         const GRAVITY = 0.6;
         const JUMP_FORCE = -12;
-        const CHARGE_JUMP_FORCE = -18;
-        const GROUND_Y = 250;
-        const MAX_CHARGE_TIME = 60;
+        const GROUND_Y = 170;
+        const CANVAS_WIDTH = 350;
+        const CANVAS_HEIGHT = 200;
 
-        // Initialize Game
+        // Stage Data
+        const stageData = [
+            { name: "地球軌道", color: "#4FC3F7", targetScore: 500 },
+            { name: "月面基地", color: "#9E9E9E", targetScore: 800 },
+            { name: "火星探索", color: "#FF7043", targetScore: 1200 },
+            { name: "小惑星帯", color: "#8D6E63", targetScore: 1600 },
+            { name: "木星圏", color: "#FF9800", targetScore: 2000 },
+            { name: "土星の輪", color: "#FFC107", targetScore: 2500 },
+            { name: "天王星嵐", color: "#00BCD4", targetScore: 3000 },
+            { name: "海王星深海", color: "#3F51B5", targetScore: 3500 },
+            { name: "冥王星氷原", color: "#607D8B", targetScore: 4000 },
+            { name: "TACO PLANET", color: "#FF6B35", targetScore: 5000 }
+        ];
+
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             canvas = document.getElementById('gameCanvas');
             ctx = canvas.getContext('2d');
             
-            // Set canvas size
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
+            // Set canvas size for mobile
+            const container = canvas.parentElement;
+            const containerWidth = container.clientWidth - 40;
+            canvas.width = Math.min(containerWidth, CANVAS_WIDTH);
+            canvas.height = CANVAS_HEIGHT;
             
             // Touch events for mobile
-            canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
-            canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
+            canvas.addEventListener('touchstart', handleTouch, { passive: false });
             canvas.addEventListener('click', handleClick);
             
             updateHighScoreDisplay();
-            generateBackgroundStars();
+            updateStageDisplay();
             drawInitialScreen();
+            createStars();
+            
+            // Load saved profile image
+            const savedProfileImage = localStorage.getItem('profileImage');
+            if (savedProfileImage) {
+                const img = document.getElementById('profileImage');
+                img.src = savedProfileImage;
+                img.style.display = 'block';
+                document.getElementById('profileEmoji').style.display = 'none';
+            }
         });
 
-        function resizeCanvas() {
-            const container = canvas.parentElement;
-            const containerWidth = container.clientWidth;
-            canvas.width = Math.min(400, containerWidth - 40);
-            canvas.height = window.innerWidth <= 768 ? 250 : 300;
-        }
-
-        function generateBackgroundStars() {
-            const starContainer = document.getElementById('backgroundStars');
+        function createStars() {
+            const starBg = document.getElementById('starBg');
             for (let i = 0; i < 50; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
-                star.innerHTML = '✦';
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 2 + 's';
-                starContainer.appendChild(star);
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starBg.appendChild(star);
             }
         }
 
-        function handleTouchStart(e) {
+        function handleTouch(e) {
             e.preventDefault();
             if (gameRunning && !gamePaused) {
-                player.charging = true;
-                player.chargeTime = 0;
-            }
-        }
-        
-        function handleTouchEnd(e) {
-            e.preventDefault();
-            if (gameRunning && !gamePaused && player.charging) {
                 jump();
-                player.charging = false;
-                player.chargeTime = 0;
             }
         }
         
@@ -381,16 +379,24 @@
 
         function jump() {
             if (player.jumpCount < player.maxJumps) {
-                const jumpPower = player.chargeTime > 30 ? CHARGE_JUMP_FORCE : JUMP_FORCE;
-                player.velocityY = jumpPower;
+                player.velocityY = JUMP_FORCE;
                 player.jumpCount++;
                 player.onGround = false;
-                totalJumps++;
-                
-                // Add jump particle effect
-                addParticles(player.x + player.width/2, player.y + player.height, 'jump');
-                
-                checkAchievements();
+                createJumpParticles();
+            }
+        }
+
+        function createJumpParticles() {
+            for (let i = 0; i < 5; i++) {
+                particles.push({
+                    x: player.x + player.width / 2,
+                    y: player.y + player.height,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: Math.random() * -2 - 1,
+                    life: 30,
+                    maxLife: 30,
+                    color: '#FF6B35'
+                });
             }
         }
 
@@ -400,30 +406,34 @@
             gameRunning = true;
             gamePaused = false;
             score = 0;
-            level = 1;
-            life = 3;
-            levelProgress = 0;
-            gameSpeed = 2;
-            levelTargetScore = 1000;
+            currentStage = 1;
+            playerLevel = 1;
+            stageProgress = 0;
+            gameSpeed = baseGameSpeed;
             items = [];
-            enemies = [];
+            obstacles = [];
+            powerUps = [];
             particles = [];
-            powerups = [];
-            activePowerups = { shield: 0, speed: 0, multiJump: 0, magnet: 0 };
             
             // Reset player
-            resetPlayer();
+            player.x = 50;
+            player.y = GROUND_Y - player.height;
+            player.velocityY = 0;
+            player.jumpCount = 0;
+            player.onGround = true;
+            player.health = 100;
+            player.shields = 0;
             
             document.getElementById('startButton').disabled = true;
             document.getElementById('pauseButton').disabled = false;
             document.getElementById('gameOverScreen').classList.add('hidden');
-            document.getElementById('levelCompleteScreen').classList.add('hidden');
+            document.getElementById('stageClearScreen').classList.add('hidden');
             
-            updateUI();
-            gameLoop = setInterval(updateGame, 1000/60); // 60 FPS
+            updateStageDisplay();
+            gameLoop = setInterval(updateGame, 1000/60);
         }
 
-        function togglePause() {
+        function pauseGame() {
             if (!gameRunning) return;
             
             gamePaused = !gamePaused;
@@ -431,12 +441,10 @@
             
             if (gamePaused) {
                 pauseBtn.innerHTML = '<i class="fas fa-play mr-1"></i>再開';
-                pauseBtn.classList.remove('bg-yellow-600', 'hover:bg-yellow-700');
-                pauseBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                clearInterval(gameLoop);
             } else {
-                pauseBtn.innerHTML = '<i class="fas fa-pause mr-1"></i>ポーズ';
-                pauseBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
-                pauseBtn.classList.add('bg-yellow-600', 'hover:bg-yellow-700');
+                pauseBtn.innerHTML = '<i class="fas fa-pause mr-1"></i>一時停止';
+                gameLoop = setInterval(updateGame, 1000/60);
             }
         }
 
@@ -449,179 +457,115 @@
             }
             
             score = 0;
-            level = 1;
-            life = 3;
-            levelProgress = 0;
+            currentStage = 1;
+            playerLevel = 1;
+            stageProgress = 0;
             
+            updateScoreDisplay();
+            updateStageDisplay();
             document.getElementById('startButton').disabled = false;
             document.getElementById('pauseButton').disabled = true;
+            document.getElementById('pauseButton').innerHTML = '<i class="fas fa-pause mr-1"></i>一時停止';
             document.getElementById('gameOverScreen').classList.add('hidden');
-            document.getElementById('levelCompleteScreen').classList.add('hidden');
+            document.getElementById('stageClearScreen').classList.add('hidden');
             
-            updateUI();
             drawInitialScreen();
-        }
-
-        function resetPlayer() {
-            player.x = 50;
-            player.y = GROUND_Y - player.height;
-            player.velocityY = 0;
-            player.jumpCount = 0;
-            player.onGround = true;
-            player.charging = false;
-            player.chargeTime = 0;
-            player.invulnerable = 0;
-            player.maxJumps = 3;
         }
 
         function updateGame() {
             if (!gameRunning || gamePaused) return;
             
-            // Update powerups
-            updatePowerups();
-            
-            // Update player physics
             updatePlayer();
-            
-            // Update game objects
             updateItems();
-            updateEnemies();
+            updateObstacles();
+            updatePowerUps();
             updateParticles();
-            
-            // Generate new objects
-            generateGameObjects();
-            
-            // Check collisions
+            generateGameElements();
             checkCollisions();
+            checkStageProgression();
             
-            // Update game progression
-            updateGameProgression();
+            score += Math.floor(gameSpeed);
+            stageProgress += 1;
+            updateScoreDisplay();
+            updateStageDisplay();
             
-            // Update UI
-            updateUI();
-            
-            // Draw everything
             draw();
         }
 
         function updatePlayer() {
-            // Update charge time
-            if (player.charging) {
-                player.chargeTime = Math.min(player.chargeTime + 1, MAX_CHARGE_TIME);
-            }
-            
-            // Apply gravity
             if (!player.onGround) {
                 player.velocityY += GRAVITY;
             }
             
-            // Update position
             player.y += player.velocityY;
             
-            // Ground collision
             if (player.y >= GROUND_Y - player.height) {
                 player.y = GROUND_Y - player.height;
                 player.velocityY = 0;
                 player.jumpCount = 0;
                 player.onGround = true;
             }
-            
-            // Update invulnerability
-            if (player.invulnerable > 0) {
-                player.invulnerable--;
-            }
-        }
-
-        function updatePowerups() {
-            Object.keys(activePowerups).forEach(key => {
-                if (activePowerups[key] > 0) {
-                    activePowerups[key]--;
-                }
-            });
-            
-            // Apply powerup effects
-            if (activePowerups.speed > 0) {
-                gameSpeed = Math.min(gameSpeed * 1.2, 8);
-            }
-            
-            if (activePowerups.multiJump > 0) {
-                player.maxJumps = 5;
-            } else {
-                player.maxJumps = 3;
-            }
         }
 
         function updateItems() {
             for (let i = items.length - 1; i >= 0; i--) {
-                let item = items[i];
-                item.x -= gameSpeed;
+                items[i].x -= gameSpeed;
+                items[i].rotation += 0.1;
                 
-                // Magnet effect
-                if (activePowerups.magnet > 0 && item.type !== 'danger') {
-                    const dx = (player.x + player.width/2) - (item.x + item.width/2);
-                    const dy = (player.y + player.height/2) - (item.y + item.height/2);
-                    const distance = Math.sqrt(dx*dx + dy*dy);
-                    
-                    if (distance < 100) {
-                        item.x += dx * 0.05;
-                        item.y += dy * 0.05;
-                    }
-                }
-                
-                // Remove items that went off screen
-                if (item.x + item.width < 0) {
+                if (items[i].x + items[i].width < 0) {
                     items.splice(i, 1);
                 }
             }
         }
 
-        function updateEnemies() {
-            for (let i = enemies.length - 1; i >= 0; i--) {
-                let enemy = enemies[i];
-                enemy.x -= gameSpeed * 1.2;
+        function updateObstacles() {
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                obstacles[i].x -= gameSpeed;
                 
-                // Simple enemy AI
-                if (enemy.type === 'asteroid') {
-                    enemy.rotation += 0.1;
-                } else if (enemy.type === 'ufo') {
-                    enemy.y += Math.sin(enemy.x * 0.01) * 0.5;
+                if (obstacles[i].x + obstacles[i].width < 0) {
+                    obstacles.splice(i, 1);
                 }
+            }
+        }
+
+        function updatePowerUps() {
+            for (let i = powerUps.length - 1; i >= 0; i--) {
+                powerUps[i].x -= gameSpeed;
+                powerUps[i].pulse += 0.1;
                 
-                // Remove enemies that went off screen
-                if (enemy.x + enemy.width < 0) {
-                    enemies.splice(i, 1);
+                if (powerUps[i].x + powerUps[i].width < 0) {
+                    powerUps.splice(i, 1);
                 }
             }
         }
 
         function updateParticles() {
             for (let i = particles.length - 1; i >= 0; i--) {
-                let particle = particles[i];
-                particle.x += particle.vx;
-                particle.y += particle.vy;
-                particle.life--;
-                particle.alpha = particle.life / particle.maxLife;
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.life--;
                 
-                if (particle.life <= 0) {
+                if (p.life <= 0) {
                     particles.splice(i, 1);
                 }
             }
         }
 
-        function generateGameObjects() {
+        function generateGameElements() {
             // Generate items
-            if (Math.random() < 0.03) {
+            if (Math.random() < 0.02 + currentStage * 0.001) {
                 generateItem();
             }
             
-            // Generate enemies based on level
-            if (Math.random() < 0.01 + level * 0.005) {
-                generateEnemy();
+            // Generate obstacles
+            if (Math.random() < 0.01 + currentStage * 0.002 && currentStage > 1) {
+                generateObstacle();
             }
             
-            // Generate powerups (rare)
+            // Generate power-ups
             if (Math.random() < 0.005) {
-                generatePowerup();
+                generatePowerUp();
             }
         }
 
@@ -629,329 +573,279 @@
             let itemType = Math.random();
             let item = {
                 x: canvas.width,
-                width: 25,
-                height: 25,
-                type: itemType < 0.5 ? 'taco' : itemType < 0.8 ? 'star' : 'coin'
+                width: 20,
+                height: 20,
+                rotation: 0
             };
             
-            // Set position and value based on type
-            if (item.type === 'taco') {
-                item.y = GROUND_Y - 40 - Math.random() * 100;
+            if (itemType < 0.6) {
+                item.type = 'taco';
+                item.y = GROUND_Y - 40 - Math.random() * 80;
                 item.points = 50;
                 item.emoji = '🌮';
-            } else if (item.type === 'star') {
-                item.y = GROUND_Y - 60 - Math.random() * 80;
-                item.points = 100;
-                item.emoji = '⭐';
-            } else {
+            } else if (itemType < 0.85) {
+                item.type = 'coin';
                 item.y = GROUND_Y - 30 - Math.random() * 60;
                 item.points = 20;
                 item.emoji = '🪙';
+            } else {
+                item.type = 'star';
+                item.y = GROUND_Y - 100 - Math.random() * 40;
+                item.points = 100;
+                item.emoji = '⭐';
             }
             
             items.push(item);
         }
 
-        function generateEnemy() {
-            let enemyType = Math.random() < 0.7 ? 'asteroid' : 'ufo';
-            let enemy = {
+        function generateObstacle() {
+            let obstacle = {
                 x: canvas.width,
-                width: 30,
+                y: GROUND_Y - 30,
+                width: 25,
                 height: 30,
-                type: enemyType,
-                rotation: 0
+                type: 'asteroid'
             };
             
-            if (enemyType === 'asteroid') {
-                enemy.y = GROUND_Y - 50 - Math.random() * 120;
-                enemy.emoji = '☄️';
-                enemy.damage = 1;
-            } else {
-                enemy.y = GROUND_Y - 80 - Math.random() * 100;
-                enemy.emoji = '🛸';
-                enemy.damage = 1;
-            }
-            
-            enemies.push(enemy);
+            obstacles.push(obstacle);
         }
 
-        function generatePowerup() {
-            let powerupType = ['shield', 'speed', 'multiJump', 'magnet'][Math.floor(Math.random() * 4)];
-            let powerup = {
+        function generatePowerUp() {
+            let powerUpTypes = ['shield', 'speed', 'magnet', 'multi_jump'];
+            let type = powerUpTypes[Math.floor(Math.random() * powerUpTypes.length)];
+            
+            let powerUp = {
                 x: canvas.width,
-                y: GROUND_Y - 60 - Math.random() * 80,
+                y: GROUND_Y - 60 - Math.random() * 60,
                 width: 25,
                 height: 25,
-                type: powerupType,
-                duration: 300 + Math.random() * 300
+                type: type,
+                pulse: 0
             };
             
-            switch (powerupType) {
-                case 'shield':
-                    powerup.emoji = '🛡️';
-                    break;
-                case 'speed':
-                    powerup.emoji = '⚡';
-                    break;
-                case 'multiJump':
-                    powerup.emoji = '🦘';
-                    break;
-                case 'magnet':
-                    powerup.emoji = '🧲';
-                    break;
-            }
-            
-            powerups.push(powerup);
+            powerUps.push(powerUp);
         }
 
         function checkCollisions() {
             // Item collisions
             for (let i = items.length - 1; i >= 0; i--) {
                 let item = items[i];
-                
-                if (isColliding(player, item)) {
+                if (checkCollision(player, item)) {
                     score += item.points;
-                    levelProgress += item.points;
-                    totalItemsCollected++;
-                    
-                    addParticles(item.x + item.width/2, item.y + item.height/2, 'collect');
+                    createCollectParticles(item.x, item.y, item.emoji);
                     items.splice(i, 1);
-                    
-                    checkAchievements();
                 }
             }
             
-            // Enemy collisions
-            if (player.invulnerable === 0) {
-                for (let i = enemies.length - 1; i >= 0; i--) {
-                    let enemy = enemies[i];
-                    
-                    if (isColliding(player, enemy)) {
-                        if (activePowerups.shield > 0) {
-                            addParticles(enemy.x + enemy.width/2, enemy.y + enemy.height/2, 'explosion');
-                            enemies.splice(i, 1);
-                        } else {
-                            life -= enemy.damage;
-                            player.invulnerable = 120; // 2 seconds
-                            addParticles(player.x + player.width/2, player.y + player.height/2, 'damage');
-                            enemies.splice(i, 1);
-                            
-                            if (life <= 0) {
-                                gameOver();
-                                return;
-                            }
-                        }
+            // Obstacle collisions
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                let obstacle = obstacles[i];
+                if (checkCollision(player, obstacle)) {
+                    if (player.shields > 0) {
+                        player.shields--;
+                        obstacles.splice(i, 1);
+                        createShieldParticles();
+                    } else {
+                        gameOver();
+                        return;
                     }
                 }
             }
             
-            // Powerup collisions
-            for (let i = powerups.length - 1; i >= 0; i--) {
-                let powerup = powerups[i];
-                
-                if (isColliding(player, powerup)) {
-                    activePowerups[powerup.type] = powerup.duration;
-                    addParticles(powerup.x + powerup.width/2, powerup.y + powerup.height/2, 'powerup');
-                    powerups.splice(i, 1);
-                    
-                    showAchievement(`${powerup.emoji} パワーアップ獲得!`);
+            // Power-up collisions
+            for (let i = powerUps.length - 1; i >= 0; i--) {
+                let powerUp = powerUps[i];
+                if (checkCollision(player, powerUp)) {
+                    applyPowerUp(powerUp.type);
+                    powerUps.splice(i, 1);
                 }
             }
         }
 
-        function isColliding(obj1, obj2) {
-            return obj1.x < obj2.x + obj2.width &&
-                   obj1.x + obj1.width > obj2.x &&
-                   obj1.y < obj2.y + obj2.height &&
-                   obj1.y + obj1.height > obj2.y;
+        function checkCollision(rect1, rect2) {
+            return rect1.x < rect2.x + rect2.width &&
+                   rect1.x + rect1.width > rect2.x &&
+                   rect1.y < rect2.y + rect2.height &&
+                   rect1.y + rect1.height > rect2.y;
         }
 
-        function addParticles(x, y, type) {
-            const count = type === 'explosion' ? 15 : 8;
-            const colors = {
-                jump: ['#ff6b35', '#f7931e'],
-                collect: ['#ffd700', '#ffff00'],
-                explosion: ['#ff4444', '#ff8800'],
-                damage: ['#ff0000', '#cc0000'],
-                powerup: ['#00ff88', '#0088ff']
-            };
-            
-            for (let i = 0; i < count; i++) {
+        function createCollectParticles(x, y, emoji) {
+            for (let i = 0; i < 8; i++) {
                 particles.push({
                     x: x,
                     y: y,
                     vx: (Math.random() - 0.5) * 6,
-                    vy: (Math.random() - 0.5) * 6,
-                    color: colors[type][Math.floor(Math.random() * colors[type].length)],
-                    life: 20 + Math.random() * 20,
+                    vy: Math.random() * -4 - 2,
+                    life: 40,
                     maxLife: 40,
-                    alpha: 1
+                    color: '#FFD700',
+                    emoji: emoji
                 });
             }
         }
 
-        function updateGameProgression() {
-            // Level progression
-            if (levelProgress >= levelTargetScore) {
-                levelComplete();
-            }
-            
-            // Increase difficulty
-            gameSpeed = Math.min(2 + level * 0.3, 6);
-        }
-
-        function levelComplete() {
-            gamePaused = true;
-            level++;
-            const bonus = level * 500;
-            score += bonus;
-            levelProgress = 0;
-            levelTargetScore += 500 + level * 200;
-            
-            document.getElementById('levelBonus').textContent = bonus;
-            document.getElementById('levelCompleteScreen').classList.remove('hidden');
-            
-            showAchievement(`レベル ${level-1} クリア!`);
-        }
-
-        function nextLevel() {
-            document.getElementById('levelCompleteScreen').classList.add('hidden');
-            gamePaused = false;
-            
-            // Add some beneficial effects for new level
-            life = Math.min(life + 1, 5);
-            player.invulnerable = 60;
-        }
-
-        function updateUI() {
-            document.getElementById('gameScore').textContent = score;
-            document.getElementById('gameLevel').textContent = level;
-            document.getElementById('gameLife').textContent = '❤️'.repeat(life);
-            document.getElementById('levelProgress').style.width = (levelProgress / levelTargetScore * 100) + '%';
-            
-            // Update powerup display
-            const powerupDiv = document.getElementById('powerups');
-            powerupDiv.innerHTML = '';
-            Object.keys(activePowerups).forEach(key => {
-                if (activePowerups[key] > 0) {
-                    const indicator = document.createElement('span');
-                    indicator.className = 'powerup-indicator';
-                    indicator.textContent = `${getPowerupEmoji(key)} ${Math.ceil(activePowerups[key]/60)}s`;
-                    powerupDiv.appendChild(indicator);
-                }
-            });
-        }
-
-        function getPowerupEmoji(type) {
-            const emojis = { shield: '🛡️', speed: '⚡', multiJump: '🦘', magnet: '🧲' };
-            return emojis[type] || '✨';
-        }
-
-        function checkAchievements() {
-            if (totalJumps === 100 && !achievements.includes('jumper')) {
-                achievements.push('jumper');
-                showAchievement('ジャンプマスター: 100回ジャンプ達成!');
-            }
-            
-            if (totalItemsCollected === 50 && !achievements.includes('collector')) {
-                achievements.push('collector');
-                showAchievement('コレクター: 50個アイテム収集!');
-            }
-            
-            if (score >= 5000 && !achievements.includes('scorer')) {
-                achievements.push('scorer');
-                showAchievement('ハイスコアラー: 5000点達成!');
+        function createShieldParticles() {
+            for (let i = 0; i < 10; i++) {
+                particles.push({
+                    x: player.x + player.width / 2,
+                    y: player.y + player.height / 2,
+                    vx: (Math.random() - 0.5) * 8,
+                    vy: (Math.random() - 0.5) * 8,
+                    life: 30,
+                    maxLife: 30,
+                    color: '#00BCD4'
+                });
             }
         }
 
-        function showAchievement(text) {
-            const popup = document.getElementById('achievementPopup');
-            document.getElementById('achievementText').textContent = text;
-            popup.classList.add('show');
+        function applyPowerUp(type) {
+            switch(type) {
+                case 'shield':
+                    player.shields = Math.min(player.shields + 1, 3);
+                    break;
+                case 'speed':
+                    gameSpeed = Math.min(gameSpeed + 1, 10);
+                    setTimeout(() => { gameSpeed = Math.max(gameSpeed - 1, baseGameSpeed); }, 5000);
+                    break;
+                case 'magnet':
+                    // Attract nearby items (simplified)
+                    items.forEach(item => {
+                        if (Math.abs(item.x - player.x) < 100) {
+                            item.x = player.x;
+                        }
+                    });
+                    break;
+                case 'multi_jump':
+                    player.maxJumps = Math.min(player.maxJumps + 1, 5);
+                    setTimeout(() => { player.maxJumps = Math.max(player.maxJumps - 1, 3); }, 10000);
+                    break;
+            }
+        }
+
+        function checkStageProgression() {
+            const currentStageData = stageData[currentStage - 1];
+            const progressPercent = (score / currentStageData.targetScore) * 100;
+            
+            document.getElementById('stageProgress').style.width = Math.min(progressPercent, 100) + '%';
+            
+            if (score >= currentStageData.targetScore && currentStage < maxStages) {
+                advanceStage();
+            } else if (score >= currentStageData.targetScore && currentStage === maxStages) {
+                gameComplete();
+            }
+        }
+
+        function advanceStage() {
+            currentStage++;
+            playerLevel = Math.floor(score / 500) + 1;
+            gameSpeed = baseGameSpeed + (currentStage - 1) * 0.5;
+            
+            showStageClear();
+            updateStageDisplay();
             
             setTimeout(() => {
-                popup.classList.remove('show');
-            }, 3000);
+                document.getElementById('stageClearScreen').classList.add('hidden');
+            }, 2000);
+        }
+
+        function showStageClear() {
+            document.getElementById('stageClearScreen').classList.remove('hidden');
+            let progress = 0;
+            const progressBar = document.getElementById('nextStageProgress');
+            
+            const progressInterval = setInterval(() => {
+                progress += 5;
+                progressBar.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                }
+            }, 40);
+        }
+
+        function gameComplete() {
+            gameRunning = false;
+            if (gameLoop) {
+                clearInterval(gameLoop);
+                gameLoop = null;
+            }
+            
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('tacosHighScore', highScore.toString());
+                updateHighScoreDisplay();
+            }
+            
+            alert('🎉 TACO PLANET到達！おめでとうございます！🌮🚀');
+            resetGame();
         }
 
         function draw() {
-            // Clear canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Draw background
             drawBackground();
-            
-            // Draw ground
             drawGround();
-            
-            // Draw particles (background layer)
-            drawParticles();
-            
-            // Draw game objects
-            drawItems();
-            drawEnemies();
-            drawPowerups();
-            
-            // Draw player
             drawPlayer();
-            
-            // Draw UI overlays
-            if (gamePaused && gameRunning) {
-                drawPauseScreen();
-            }
+            drawItems();
+            drawObstacles();
+            drawPowerUps();
+            drawParticles();
+            drawHUD();
         }
 
         function drawBackground() {
-            // Space gradient
-            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            gradient.addColorStop(0, '#0a0a1a');
-            gradient.addColorStop(0.5, '#1a1a2e');
-            gradient.addColorStop(1, '#16213e');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const currentStageData = stageData[currentStage - 1];
+            const gradient = ctx.createLinearGradient(0, 0, 0, GROUND_Y);
+            gradient.addColorStop(0, '#000428');
+            gradient.addColorStop(0.5, currentStageData.color + '40');
+            gradient.addColorStop(1, '#004e92');
             
-            // Stars
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, GROUND_Y);
+            
+            // Draw stars
+            ctx.fillStyle = 'white';
             for (let i = 0; i < 20; i++) {
-                const x = (i * 37 + Date.now() * 0.01) % canvas.width;
-                const y = (i * 23) % (canvas.height - 50);
-                ctx.fillRect(x, y, 1, 1);
+                ctx.beginPath();
+                ctx.arc((i * 50 + Date.now() * 0.01) % canvas.width, 
+                       (i * 30) % (GROUND_Y - 20) + 10, 1, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
 
         function drawGround() {
-            ctx.fillStyle = '#2a2a3a';
+            ctx.fillStyle = '#2C1810';
             ctx.fillRect(0, GROUND_Y, canvas.width, canvas.height - GROUND_Y);
-            
-            // Ground details
-            ctx.fillStyle = '#ff6b35';
-            ctx.fillRect(0, GROUND_Y, canvas.width, 2);
         }
 
         function drawPlayer() {
             ctx.save();
+            ctx.translate(player.x + player.width/2, player.y + player.height/2);
             
-            // Invulnerability effect
-            if (player.invulnerable > 0 && Math.floor(player.invulnerable / 10) % 2) {
-                ctx.globalAlpha = 0.5;
+            // Draw rocket body
+            ctx.fillStyle = '#FF6B35';
+            ctx.fillRect(-player.width/2, -player.height/2, player.width, player.height);
+            
+            // Draw rocket tip
+            ctx.fillStyle = '#F7931E';
+            ctx.beginPath();
+            ctx.moveTo(-player.width/2, -player.height/2);
+            ctx.lineTo(0, -player.height/2 - 8);
+            ctx.lineTo(player.width/2, -player.height/2);
+            ctx.fill();
+            
+            // Draw engine flame
+            if (!player.onGround) {
+                ctx.fillStyle = '#FF4444';
+                ctx.fillRect(-5, player.height/2, 10, 8);
             }
             
-            // Draw spaceship
-            ctx.fillStyle = '#ff6b35';
-            ctx.fillRect(player.x, player.y, player.width, player.height);
-            
-            // Draw rocket emoji
-            ctx.font = '24px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('🚀', player.x + player.width/2, player.y + player.height - 2);
-            
-            // Charge indicator
-            if (player.charging) {
-                const chargeRadius = 5 + (player.chargeTime / MAX_CHARGE_TIME) * 15;
-                ctx.strokeStyle = '#ffff00';
+            // Draw shield
+            if (player.shields > 0) {
+                ctx.strokeStyle = '#00BCD4';
                 ctx.lineWidth = 2;
                 ctx.beginPath();
-                ctx.arc(player.x + player.width/2, player.y + player.height/2, chargeRadius, 0, Math.PI * 2);
+                ctx.arc(0, 0, player.width/2 + 5, 0, Math.PI * 2);
                 ctx.stroke();
             }
             
@@ -960,56 +854,86 @@
 
         function drawItems() {
             items.forEach(item => {
-                ctx.font = '20px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText(item.emoji, item.x + item.width/2, item.y + item.height - 2);
-            });
-        }
-
-        function drawEnemies() {
-            enemies.forEach(enemy => {
                 ctx.save();
-                ctx.translate(enemy.x + enemy.width/2, enemy.y + enemy.height/2);
-                ctx.rotate(enemy.rotation || 0);
-                ctx.font = '24px Arial';
+                ctx.translate(item.x + item.width/2, item.y + item.height/2);
+                ctx.rotate(item.rotation);
+                
+                ctx.font = '16px Arial';
                 ctx.textAlign = 'center';
-                ctx.fillText(enemy.emoji, 0, 6);
+                ctx.fillText(item.emoji, 0, 5);
+                
                 ctx.restore();
             });
         }
 
-        function drawPowerups() {
-            powerups.forEach(powerup => {
-                // Glow effect
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = '#00ff88';
+        function drawObstacles() {
+            obstacles.forEach(obstacle => {
+                ctx.fillStyle = '#8D6E63';
+                ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+                
+                // Add some texture
+                ctx.fillStyle = '#5D4E37';
+                ctx.fillRect(obstacle.x + 5, obstacle.y + 5, 15, 20);
+            });
+        }
+
+        function drawPowerUps() {
+            powerUps.forEach(powerUp => {
+                ctx.save();
+                ctx.translate(powerUp.x + powerUp.width/2, powerUp.y + powerUp.height/2);
+                
+                const pulseScale = 1 + Math.sin(powerUp.pulse) * 0.2;
+                ctx.scale(pulseScale, pulseScale);
+                
+                let emoji = '⚡';
+                switch(powerUp.type) {
+                    case 'shield': emoji = '🛡️'; break;
+                    case 'speed': emoji = '⚡'; break;
+                    case 'magnet': emoji = '🧲'; break;
+                    case 'multi_jump': emoji = '👟'; break;
+                }
                 
                 ctx.font = '20px Arial';
                 ctx.textAlign = 'center';
-                ctx.fillText(powerup.emoji, powerup.x + powerup.width/2, powerup.y + powerup.height - 2);
+                ctx.fillText(emoji, 0, 5);
                 
-                ctx.shadowBlur = 0;
+                ctx.restore();
             });
         }
 
         function drawParticles() {
             particles.forEach(particle => {
                 ctx.save();
-                ctx.globalAlpha = particle.alpha;
-                ctx.fillStyle = particle.color || '#ffffff';
-                ctx.fillRect(particle.x - 1, particle.y - 1, 2, 2);
+                const alpha = particle.life / particle.maxLife;
+                
+                if (particle.emoji) {
+                    ctx.globalAlpha = alpha;
+                    ctx.font = '12px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(particle.emoji, particle.x, particle.y);
+                } else {
+                    ctx.globalAlpha = alpha;
+                    ctx.fillStyle = particle.color;
+                    ctx.fillRect(particle.x - 2, particle.y - 2, 4, 4);
+                }
+                
                 ctx.restore();
             });
         }
 
-        function drawPauseScreen() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        function drawHUD() {
+            // Draw shields
+            for (let i = 0; i < player.shields; i++) {
+                ctx.font = '16px Arial';
+                ctx.fillText('🛡️', 10 + i * 20, 25);
+            }
             
-            ctx.fillStyle = 'white';
-            ctx.font = 'bold 24px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('⏸️ ポーズ中', canvas.width/2, canvas.height/2);
+            // Draw jumps remaining
+            const jumpsLeft = player.maxJumps - player.jumpCount;
+            for (let i = 0; i < jumpsLeft; i++) {
+                ctx.font = '12px Arial';
+                ctx.fillText('↑', canvas.width - 30 + i * 8, 25);
+            }
         }
 
         function drawInitialScreen() {
@@ -1017,27 +941,34 @@
             drawBackground();
             drawGround();
             
-            // Draw player at starting position
             player.y = GROUND_Y - player.height;
             drawPlayer();
             
-            // Draw start message
             ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             ctx.fillStyle = 'white';
-            ctx.font = 'bold 20px Arial';
+            ctx.font = 'bold 18px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('🚀 TACO PLANET', canvas.width/2, canvas.height/2 - 30);
-            ctx.fillText('アドベンチャー', canvas.width/2, canvas.height/2 - 5);
+            ctx.fillText('🚀 宇宙船タコス収集', canvas.width/2, canvas.height/2 - 30);
             
             ctx.font = '14px Arial';
-            ctx.fillText('宇宙船を操縦してタコスを集めよう!', canvas.width/2, canvas.height/2 + 25);
-            ctx.fillText('レベルアップして新しいエリアを探索!', canvas.width/2, canvas.height/2 + 45);
+            ctx.fillText('TACO PLANETへの壮大な旅', canvas.width/2, canvas.height/2 - 10);
+            ctx.fillText('タップで3段ジャンプ！', canvas.width/2, canvas.height/2 + 10);
+            ctx.fillText('10ステージクリアを目指そう', canvas.width/2, canvas.height/2 + 30);
+        }
+
+        function updateScoreDisplay() {
+            document.getElementById('gameScore').textContent = score.toLocaleString();
         }
 
         function updateHighScoreDisplay() {
-            document.getElementById('highScore').textContent = highScore;
+            document.getElementById('highScore').textContent = highScore.toLocaleString();
+        }
+
+        function updateStageDisplay() {
+            document.getElementById('currentStage').textContent = currentStage;
+            document.getElementById('playerLevel').textContent = playerLevel;
         }
 
         function gameOver() {
@@ -1047,23 +978,20 @@
                 gameLoop = null;
             }
             
-            // Update high score
             if (score > highScore) {
                 highScore = score;
-                localStorage.setItem('spaceAdventureHighScore', highScore.toString());
+                localStorage.setItem('tacosHighScore', highScore.toString());
                 updateHighScoreDisplay();
-                showAchievement('🏆 新記録達成!');
             }
             
-            // Show game over screen
-            document.getElementById('finalScore').textContent = score;
-            document.getElementById('finalLevel').textContent = level;
+            document.getElementById('finalStage').textContent = currentStage;
+            document.getElementById('finalScore').textContent = score.toLocaleString();
             document.getElementById('gameOverScreen').classList.remove('hidden');
             document.getElementById('startButton').disabled = false;
             document.getElementById('pauseButton').disabled = true;
         }
 
-        // Profile image upload functionality
+        // Profile Image Functions
         function uploadProfileImage() {
             document.getElementById('profileImageInput').click();
         }
@@ -1073,13 +1001,10 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const img = document.createElement('img');
+                    const img = document.getElementById('profileImage');
                     img.src = e.target.result;
-                    img.className = 'profile-image';
-                    
-                    const avatar = document.getElementById('profileAvatar');
-                    avatar.innerHTML = '';
-                    avatar.appendChild(img);
+                    img.style.display = 'block';
+                    document.getElementById('profileEmoji').style.display = 'none';
                     
                     // Save to localStorage
                     localStorage.setItem('profileImage', e.target.result);
@@ -1088,17 +1013,36 @@
             }
         }
 
-        // Load saved profile image
-        window.addEventListener('load', function() {
-            const savedImage = localStorage.getItem('profileImage');
-            if (savedImage) {
-                const img = document.createElement('img');
-                img.src = savedImage;
-                img.className = 'profile-image';
+        // SNS Management
+        function addNewSNS() {
+            const name = prompt('SNSアカウント名を入力してください (例: @username):');
+            const url = prompt('URLを入力してください:');
+            
+            if (name && url) {
+                const snsContainer = document.querySelector('.space-y-3');
+                const newSNS = document.createElement('a');
+                newSNS.href = url;
+                newSNS.target = '_blank';
+                newSNS.className = 'sns-button text-white p-4 rounded-lg flex items-center justify-center w-full block';
+                newSNS.innerHTML = `
+                    <i class="fas fa-link mr-3 text-xl"></i>
+                    <span class="font-semibold">${name}</span>
+                `;
                 
-                const avatar = document.getElementById('profileAvatar');
-                avatar.innerHTML = '';
-                avatar.appendChild(img);
+                snsContainer.appendChild(newSNS);
+            }
+        }
+
+        // Resize handler for mobile
+        window.addEventListener('resize', function() {
+            if (canvas) {
+                const container = canvas.parentElement;
+                const containerWidth = container.clientWidth - 40;
+                canvas.width = Math.min(containerWidth, CANVAS_WIDTH);
+                
+                if (!gameRunning) {
+                    drawInitialScreen();
+                }
             }
         });
     </script>
