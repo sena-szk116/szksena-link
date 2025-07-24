@@ -8,21 +8,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <style>
         body {
-            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FF6B35 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             font-family: 'Arial', sans-serif;
             min-height: 100vh;
         }
         
-        .tacos-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+        .space-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
             border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(255, 107, 53, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .sns-button {
-            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
             transition: all 0.3s ease;
             border-radius: 15px;
         }
@@ -34,122 +34,107 @@
         
         .game-canvas {
             border-radius: 15px;
-            border: 3px solid #8D6E63;
-            background: radial-gradient(ellipse at center, #000428 0%, #004e92 100%);
-            position: relative;
-        }
-        
-        .add-sns-btn {
-            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            border: 2px solid rgba(255, 107, 53, 0.5);
+            background: linear-gradient(to bottom, #0a0a1a 0%, #1a1a2e 100%);
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
         }
         
         .profile-avatar {
-            background: linear-gradient(45deg, #FF6B35, #F7931E);
-            width: 80px;
-            height: 80px;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: white;
             margin: 0 auto 1rem;
             cursor: pointer;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
         
-        .profile-avatar img {
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+        
+        .profile-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 50%;
         }
         
-        .profile-avatar:hover::after {
-            content: '📷';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            border-radius: 50%;
+        .game-ui {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
         }
         
-        .event-placeholder {
-            border: 2px dashed #FF6B35;
-            background: rgba(255, 107, 53, 0.1);
-            border-radius: 15px;
-            min-height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            color: #FF6B35;
-            cursor: pointer;
-            position: relative;
+        .level-bar {
+            background: rgba(255, 255, 255, 0.2);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
         }
         
-        .event-image {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 15px;
-            margin: 10px 0;
-            cursor: pointer;
-        }
-        
-        .stars {
-            position: absolute;
-            width: 100%;
+        .level-progress {
+            background: linear-gradient(90deg, #ff6b35, #f7931e);
             height: 100%;
-            pointer-events: none;
+            transition: width 0.3s ease;
+        }
+        
+        .powerup-indicator {
+            display: inline-block;
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid #ff6b35;
+            border-radius: 8px;
+            padding: 4px 8px;
+            margin: 2px;
+            font-size: 12px;
+            color: #ff6b35;
+        }
+        
+        .achievement-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            transform: translateX(300px);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+        }
+        
+        .achievement-popup.show {
+            transform: translateX(0);
+        }
+        
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
         }
         
         .star {
             position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 2s infinite alternate;
-        }
-        
-        @keyframes twinkle {
-            0% { opacity: 0.3; }
-            100% { opacity: 1; }
-        }
-        
-        .spaceship {
-            font-size: 24px;
-            filter: drop-shadow(0 0 10px #00ffff);
-        }
-        
-        .taco-item {
-            font-size: 18px;
-            filter: drop-shadow(0 0 5px #ffff00);
-        }
-        
-        .game-complete {
-            background: linear-gradient(45deg, #4CAF50, #66BB6A);
             color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            animation: celebrateGlow 1s infinite alternate;
-        }
-        
-        @keyframes celebrateGlow {
-            0% { box-shadow: 0 0 20px rgba(76, 175, 80, 0.5); }
-            100% { box-shadow: 0 0 30px rgba(76, 175, 80, 0.8); }
+            animation: starTwinkle 2s infinite;
         }
         
         @media (max-width: 768px) {
             .container {
                 padding-left: 1rem;
                 padding-right: 1rem;
+            }
+            .game-canvas {
+                height: 250px;
             }
         }
     </style>
@@ -158,20 +143,19 @@
     <div class="container mx-auto py-4 px-2 max-w-md">
         
         <!-- Profile Section -->
-        <div class="tacos-card p-6 mb-6 text-center">
-            <div class="profile-avatar" onclick="uploadProfileImage()">
-                <span id="profileEmoji">🌮</span>
-                <img id="profileImage" style="display: none;">
+        <div class="space-card p-6 mb-6 text-center">
+            <div class="profile-avatar" onclick="uploadProfileImage()" id="profileAvatar">
+                <span id="avatarEmoji">🌮</span>
+                <input type="file" id="profileImageInput" accept="image/*" style="display: none;" onchange="handleProfileImageUpload(event)">
             </div>
-            <h1 class="text-2xl font-bold text-gray-800 mb-1">鈴木 聖直</h1>
-            <p class="text-gray-600 text-sm">Suzuki Sena</p>
-            <input type="file" id="profileImageInput" accept="image/*" style="display: none;" onchange="handleProfileImage(this)">
+            <h1 class="text-2xl font-bold text-white mb-1">鈴木 聖直</h1>
+            <p class="text-gray-300 text-sm">Suzuki Sena</p>
         </div>
 
         <!-- SNS Links Section -->
-        <div class="tacos-card p-6 mb-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                <i class="fas fa-share-alt mr-2 text-orange-500"></i>
+        <div class="space-card p-6 mb-6">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center">
+                <i class="fas fa-share-alt mr-2 text-orange-400"></i>
                 SNS Links
             </h2>
             
@@ -186,242 +170,227 @@
                     <span class="font-semibold">@diner_foodparty</span>
                 </a>
             </div>
-            
-            <button onclick="addNewSNS()" class="add-sns-btn text-white p-3 rounded-lg mt-4 w-full flex items-center justify-center">
-                <i class="fas fa-plus mr-2"></i>
-                <span>SNSを追加</span>
-            </button>
         </div>
 
         <!-- Event Information Section -->
-        <div class="tacos-card p-6 mb-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                <i class="fas fa-calendar-alt mr-2 text-orange-500"></i>
+        <div class="space-card p-6 mb-6">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center">
+                <i class="fas fa-calendar-alt mr-2 text-orange-400"></i>
                 イベント情報
             </h2>
             
-            <div id="eventFlyer" class="event-placeholder" onclick="uploadFlyerImage()">
-                <i class="fas fa-image text-4xl mb-2"></i>
-                <p class="text-center font-semibold">フライヤー画像をアップロード</p>
-                <p class="text-sm text-center mt-1">タップして画像を追加</p>
+            <div class="text-center">
+                <img src="https://page.gensparksite.com/v1/base64_upload/8d56eb2b63ba833c4411df44f14eddda" alt="TACOS DINER - AUGUST 24, 2025" class="w-full max-w-sm rounded-lg mx-auto shadow-lg">
             </div>
-            <input type="file" id="flyerImageInput" accept="image/*" style="display: none;" onchange="handleFlyerImage(this)">
         </div>
 
-        <!-- Spaceship Taco Collection Game Section -->
-        <div class="tacos-card p-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                <i class="fas fa-rocket mr-2 text-orange-500"></i>
-                🚀 TACO PLANET - 宇宙船でタコス収集！
+        <!-- Space Adventure Game Section -->
+        <div class="space-card p-6">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center">
+                <i class="fas fa-rocket mr-2 text-orange-400"></i>
+                🚀 TACO PLANET アドベンチャー
             </h2>
             
-            <div class="text-center mb-4">
-                <div class="bg-blue-100 rounded-lg p-3 mb-3">
-                    <p class="text-sm text-blue-800"><strong>ミッション:</strong> タコス100個収集でクリア！</p>
-                    <p class="text-xs text-blue-700">宇宙船をタップして浮遊、タコスを集めよう</p>
+            <!-- Game UI -->
+            <div class="game-ui text-white text-sm">
+                <div class="flex justify-between items-center mb-2">
+                    <span>レベル: <span id="gameLevel" class="font-bold text-orange-400">1</span></span>
+                    <span>ライフ: <span id="gameLife" class="font-bold text-red-400">❤️❤️❤️</span></span>
                 </div>
-                
-                <div class="flex justify-between text-sm bg-gray-100 rounded-lg p-2 mb-3">
-                    <span>収集: <span id="gameScore" class="font-bold text-orange-600">0</span>/100</span>
-                    <span>記録: <span id="highScore" class="font-bold text-orange-600">0</span></span>
+                <div class="flex justify-between items-center mb-2">
+                    <span>スコア: <span id="gameScore" class="font-bold text-yellow-400">0</span></span>
+                    <span>ハイスコア: <span id="highScore" class="font-bold text-purple-400">0</span></span>
                 </div>
+                <div class="level-bar mb-2">
+                    <div class="level-progress" id="levelProgress" style="width: 0%"></div>
+                </div>
+                <div id="powerups" class="text-xs"></div>
             </div>
 
-            <div style="position: relative;">
-                <canvas id="gameCanvas" class="game-canvas w-full" width="350" height="250"></canvas>
-                <div class="stars" id="stars"></div>
-            </div>
+            <canvas id="gameCanvas" class="game-canvas mx-auto"></canvas>
             
             <div class="mt-4 flex flex-wrap gap-2 justify-center">
-                <button id="startButton" onclick="startGame()" class="bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-semibold">
-                    <i class="fas fa-play mr-1"></i>ミッション開始
+                <button id="startButton" onclick="startGame()" class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
+                    <i class="fas fa-play mr-1"></i>ゲーム開始
                 </button>
-                <button id="resetButton" onclick="resetGame()" class="bg-red-500 text-white px-4 py-2 rounded-lg text-sm font-semibold">
+                <button id="pauseButton" onclick="togglePause()" class="bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-yellow-700 transition-colors" disabled>
+                    <i class="fas fa-pause mr-1"></i>ポーズ
+                </button>
+                <button id="resetButton" onclick="resetGame()" class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition-colors">
                     <i class="fas fa-redo mr-1"></i>リセット
                 </button>
             </div>
             
-            <div id="gameOverScreen" class="text-center mt-4 hidden">
-                <div class="bg-red-100 rounded-lg p-3">
-                    <h3 class="font-bold text-red-800">ミッション失敗</h3>
-                    <p class="text-sm text-red-700">収集数: <span id="finalScore" class="font-bold"></span></p>
+            <div class="text-center mt-4">
+                <div class="bg-gray-800 rounded-lg p-3">
+                    <p class="text-xs text-gray-300 mb-2"><strong>操作方法:</strong></p>
+                    <p class="text-xs text-gray-400">タップ：ジャンプ（最大3回）<br>長押し：チャージジャンプ</p>
                 </div>
             </div>
             
-            <div id="gameCompleteScreen" class="text-center mt-4 hidden">
-                <div class="game-complete">
-                    <h3 class="font-bold text-xl">🎉 ミッション完了！</h3>
-                    <p class="text-lg">TACO PLANET制覇！</p>
-                    <p class="text-sm">収集タコス: 100個</p>
+            <div id="gameOverScreen" class="text-center mt-4 hidden">
+                <div class="bg-red-900 bg-opacity-80 rounded-lg p-4">
+                    <h3 class="font-bold text-red-300 text-lg mb-2">ミッション失敗!</h3>
+                    <p class="text-sm text-red-200">到達レベル: <span id="finalLevel" class="font-bold"></span></p>
+                    <p class="text-sm text-red-200">最終スコア: <span id="finalScore" class="font-bold"></span></p>
+                </div>
+            </div>
+            
+            <div id="levelCompleteScreen" class="text-center mt-4 hidden">
+                <div class="bg-green-900 bg-opacity-80 rounded-lg p-4">
+                    <h3 class="font-bold text-green-300 text-lg mb-2">レベルクリア!</h3>
+                    <p class="text-sm text-green-200">ボーナス: <span id="levelBonus" class="font-bold"></span>pts</p>
+                    <button onclick="nextLevel()" class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold mt-2">
+                        次のレベルへ
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Achievement Popup -->
+    <div id="achievementPopup" class="achievement-popup">
+        <div class="flex items-center">
+            <i class="fas fa-trophy mr-2"></i>
+            <div>
+                <div class="font-bold">アチーブメント達成!</div>
+                <div id="achievementText" class="text-sm"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Stars -->
+    <div id="backgroundStars"></div>
+
     <script>
-        // Initialize saved images on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadSavedImages();
-            initializeGame();
-            createStars();
-        });
-
-        // Image Upload Functions
-        function uploadProfileImage() {
-            document.getElementById('profileImageInput').click();
-        }
-
-        function uploadFlyerImage() {
-            document.getElementById('flyerImageInput').click();
-        }
-
-        function handleProfileImage(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const imageData = e.target.result;
-                    document.getElementById('profileImage').src = imageData;
-                    document.getElementById('profileImage').style.display = 'block';
-                    document.getElementById('profileEmoji').style.display = 'none';
-                    
-                    // Save to localStorage
-                    localStorage.setItem('profileImage', imageData);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function handleFlyerImage(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const imageData = e.target.result;
-                    const flyerDiv = document.getElementById('eventFlyer');
-                    flyerDiv.innerHTML = `
-                        <img src="${imageData}" alt="イベントフライヤー" class="event-image">
-                        <button onclick="removeFlyerImage()" class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm">×</button>
-                    `;
-                    flyerDiv.classList.remove('event-placeholder');
-                    
-                    // Save to localStorage
-                    localStorage.setItem('flyerImage', imageData);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function removeFlyerImage() {
-            const flyerDiv = document.getElementById('eventFlyer');
-            flyerDiv.innerHTML = `
-                <i class="fas fa-image text-4xl mb-2"></i>
-                <p class="text-center font-semibold">フライヤー画像をアップロード</p>
-                <p class="text-sm text-center mt-1">タップして画像を追加</p>
-            `;
-            flyerDiv.classList.add('event-placeholder');
-            flyerDiv.onclick = uploadFlyerImage;
-            
-            // Remove from localStorage
-            localStorage.removeItem('flyerImage');
-        }
-
-        function loadSavedImages() {
-            // Load profile image
-            const savedProfileImage = localStorage.getItem('profileImage');
-            if (savedProfileImage) {
-                document.getElementById('profileImage').src = savedProfileImage;
-                document.getElementById('profileImage').style.display = 'block';
-                document.getElementById('profileEmoji').style.display = 'none';
-            }
-
-            // Load flyer image
-            const savedFlyerImage = localStorage.getItem('flyerImage');
-            if (savedFlyerImage) {
-                const flyerDiv = document.getElementById('eventFlyer');
-                flyerDiv.innerHTML = `
-                    <img src="${savedFlyerImage}" alt="イベントフライヤー" class="event-image">
-                    <button onclick="removeFlyerImage()" class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm">×</button>
-                `;
-                flyerDiv.classList.remove('event-placeholder');
-            }
-        }
-
         // Game Variables
         let canvas, ctx;
         let gameRunning = false;
+        let gamePaused = false;
         let gameLoop = null;
         let score = 0;
-        let highScore = parseInt(localStorage.getItem('spaceshipTacosHighScore') || '0');
-        let gameComplete = false;
+        let level = 1;
+        let life = 3;
+        let levelProgress = 0;
+        let highScore = parseInt(localStorage.getItem('spaceAdventureHighScore') || '0');
         
         // Game Objects
         let player = {
             x: 50,
             y: 200,
-            width: 40,
+            width: 30,
             height: 30,
             velocityY: 0,
-            thrustCount: 0,
-            maxThrust: 3,
-            floating: false
+            jumpCount: 0,
+            maxJumps: 3,
+            onGround: true,
+            charging: false,
+            chargeTime: 0,
+            invulnerable: 0
         };
         
-        let tacos = [];
+        let items = [];
+        let enemies = [];
+        let particles = [];
+        let powerups = [];
+        let backgrounds = [];
         let gameSpeed = 2;
-        let gameTime = 0;
+        let levelTargetScore = 1000;
+        
+        // Powerup system
+        let activePowerups = {
+            shield: 0,
+            speed: 0,
+            multiJump: 0,
+            magnet: 0
+        };
+        
+        // Achievement system
+        let achievements = [];
+        let totalJumps = 0;
+        let totalItemsCollected = 0;
         
         // Game Constants
-        const GRAVITY = 0.4;
-        const THRUST_FORCE = -8;
-        const CANVAS_WIDTH = 350;
-        const CANVAS_HEIGHT = 250;
-        const WIN_CONDITION = 100;
+        const GRAVITY = 0.6;
+        const JUMP_FORCE = -12;
+        const CHARGE_JUMP_FORCE = -18;
+        const GROUND_Y = 250;
+        const MAX_CHARGE_TIME = 60;
 
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 30; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.width = Math.random() * 3 + 1 + 'px';
-                star.style.height = star.style.width;
-                star.style.animationDelay = Math.random() * 2 + 's';
-                starsContainer.appendChild(star);
-            }
-        }
-
-        function initializeGame() {
+        // Initialize Game
+        document.addEventListener('DOMContentLoaded', function() {
             canvas = document.getElementById('gameCanvas');
             ctx = canvas.getContext('2d');
             
-            canvas.width = CANVAS_WIDTH;
-            canvas.height = CANVAS_HEIGHT;
+            // Set canvas size
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
             
-            canvas.addEventListener('touchstart', handleTouch, { passive: false });
+            // Touch events for mobile
+            canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+            canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
             canvas.addEventListener('click', handleClick);
             
             updateHighScoreDisplay();
+            generateBackgroundStars();
             drawInitialScreen();
+        });
+
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            const containerWidth = container.clientWidth;
+            canvas.width = Math.min(400, containerWidth - 40);
+            canvas.height = window.innerWidth <= 768 ? 250 : 300;
         }
 
-        function handleTouch(e) {
+        function generateBackgroundStars() {
+            const starContainer = document.getElementById('backgroundStars');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.innerHTML = '✦';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                starContainer.appendChild(star);
+            }
+        }
+
+        function handleTouchStart(e) {
             e.preventDefault();
-            if (gameRunning && !gameComplete) {
-                thrust();
+            if (gameRunning && !gamePaused) {
+                player.charging = true;
+                player.chargeTime = 0;
+            }
+        }
+        
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            if (gameRunning && !gamePaused && player.charging) {
+                jump();
+                player.charging = false;
+                player.chargeTime = 0;
             }
         }
         
         function handleClick(e) {
-            if (gameRunning && !gameComplete) {
-                thrust();
+            if (gameRunning && !gamePaused) {
+                jump();
             }
         }
 
-        function thrust() {
-            if (player.thrustCount < player.maxThrust) {
-                player.velocityY = THRUST_FORCE;
-                player.thrustCount++;
-                player.floating = false;
+        function jump() {
+            if (player.jumpCount < player.maxJumps) {
+                const jumpPower = player.chargeTime > 30 ? CHARGE_JUMP_FORCE : JUMP_FORCE;
+                player.velocityY = jumpPower;
+                player.jumpCount++;
+                player.onGround = false;
+                totalJumps++;
+                
+                // Add jump particle effect
+                addParticles(player.x + player.width/2, player.y + player.height, 'jump');
+                
+                checkAchievements();
             }
         }
 
@@ -429,212 +398,709 @@
             if (gameRunning) return;
             
             gameRunning = true;
-            gameComplete = false;
+            gamePaused = false;
             score = 0;
+            level = 1;
+            life = 3;
+            levelProgress = 0;
             gameSpeed = 2;
-            tacos = [];
-            gameTime = 0;
+            levelTargetScore = 1000;
+            items = [];
+            enemies = [];
+            particles = [];
+            powerups = [];
+            activePowerups = { shield: 0, speed: 0, multiJump: 0, magnet: 0 };
             
-            player.x = 50;
-            player.y = 200;
-            player.velocityY = 0;
-            player.thrustCount = 0;
-            player.floating = false;
+            // Reset player
+            resetPlayer();
             
             document.getElementById('startButton').disabled = true;
+            document.getElementById('pauseButton').disabled = false;
             document.getElementById('gameOverScreen').classList.add('hidden');
-            document.getElementById('gameCompleteScreen').classList.add('hidden');
+            document.getElementById('levelCompleteScreen').classList.add('hidden');
             
-            gameLoop = setInterval(updateGame, 1000/60);
+            updateUI();
+            gameLoop = setInterval(updateGame, 1000/60); // 60 FPS
+        }
+
+        function togglePause() {
+            if (!gameRunning) return;
+            
+            gamePaused = !gamePaused;
+            const pauseBtn = document.getElementById('pauseButton');
+            
+            if (gamePaused) {
+                pauseBtn.innerHTML = '<i class="fas fa-play mr-1"></i>再開';
+                pauseBtn.classList.remove('bg-yellow-600', 'hover:bg-yellow-700');
+                pauseBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+            } else {
+                pauseBtn.innerHTML = '<i class="fas fa-pause mr-1"></i>ポーズ';
+                pauseBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                pauseBtn.classList.add('bg-yellow-600', 'hover:bg-yellow-700');
+            }
         }
 
         function resetGame() {
             gameRunning = false;
-            gameComplete = false;
+            gamePaused = false;
             if (gameLoop) {
                 clearInterval(gameLoop);
                 gameLoop = null;
             }
             
             score = 0;
-            updateScoreDisplay();
-            document.getElementById('startButton').disabled = false;
-            document.getElementById('gameOverScreen').classList.add('hidden');
-            document.getElementById('gameCompleteScreen').classList.add('hidden');
+            level = 1;
+            life = 3;
+            levelProgress = 0;
             
+            document.getElementById('startButton').disabled = false;
+            document.getElementById('pauseButton').disabled = true;
+            document.getElementById('gameOverScreen').classList.add('hidden');
+            document.getElementById('levelCompleteScreen').classList.add('hidden');
+            
+            updateUI();
             drawInitialScreen();
         }
 
+        function resetPlayer() {
+            player.x = 50;
+            player.y = GROUND_Y - player.height;
+            player.velocityY = 0;
+            player.jumpCount = 0;
+            player.onGround = true;
+            player.charging = false;
+            player.chargeTime = 0;
+            player.invulnerable = 0;
+            player.maxJumps = 3;
+        }
+
         function updateGame() {
-            if (!gameRunning || gameComplete) return;
+            if (!gameRunning || gamePaused) return;
             
-            gameTime++;
+            // Update powerups
+            updatePowerups();
             
+            // Update player physics
             updatePlayer();
-            updateTacos();
-            generateTacos();
-            checkCollisions();
-            checkWinCondition();
             
-            updateScoreDisplay();
+            // Update game objects
+            updateItems();
+            updateEnemies();
+            updateParticles();
+            
+            // Generate new objects
+            generateGameObjects();
+            
+            // Check collisions
+            checkCollisions();
+            
+            // Update game progression
+            updateGameProgression();
+            
+            // Update UI
+            updateUI();
+            
+            // Draw everything
             draw();
         }
 
         function updatePlayer() {
-            if (!player.floating) {
+            // Update charge time
+            if (player.charging) {
+                player.chargeTime = Math.min(player.chargeTime + 1, MAX_CHARGE_TIME);
+            }
+            
+            // Apply gravity
+            if (!player.onGround) {
                 player.velocityY += GRAVITY;
             }
             
+            // Update position
             player.y += player.velocityY;
             
-            // Screen boundaries
-            if (player.y < 0) {
-                player.y = 0;
+            // Ground collision
+            if (player.y >= GROUND_Y - player.height) {
+                player.y = GROUND_Y - player.height;
                 player.velocityY = 0;
+                player.jumpCount = 0;
+                player.onGround = true;
             }
-            if (player.y > CANVAS_HEIGHT - player.height) {
-                player.y = CANVAS_HEIGHT - player.height;
-                player.velocityY = 0;
-                player.thrustCount = 0;
-                player.floating = false;
+            
+            // Update invulnerability
+            if (player.invulnerable > 0) {
+                player.invulnerable--;
             }
         }
 
-        function updateTacos() {
-            for (let i = tacos.length - 1; i >= 0; i--) {
-                tacos[i].x -= gameSpeed;
+        function updatePowerups() {
+            Object.keys(activePowerups).forEach(key => {
+                if (activePowerups[key] > 0) {
+                    activePowerups[key]--;
+                }
+            });
+            
+            // Apply powerup effects
+            if (activePowerups.speed > 0) {
+                gameSpeed = Math.min(gameSpeed * 1.2, 8);
+            }
+            
+            if (activePowerups.multiJump > 0) {
+                player.maxJumps = 5;
+            } else {
+                player.maxJumps = 3;
+            }
+        }
+
+        function updateItems() {
+            for (let i = items.length - 1; i >= 0; i--) {
+                let item = items[i];
+                item.x -= gameSpeed;
                 
-                if (tacos[i].x + tacos[i].width < 0) {
-                    tacos.splice(i, 1);
+                // Magnet effect
+                if (activePowerups.magnet > 0 && item.type !== 'danger') {
+                    const dx = (player.x + player.width/2) - (item.x + item.width/2);
+                    const dy = (player.y + player.height/2) - (item.y + item.height/2);
+                    const distance = Math.sqrt(dx*dx + dy*dy);
+                    
+                    if (distance < 100) {
+                        item.x += dx * 0.05;
+                        item.y += dy * 0.05;
+                    }
+                }
+                
+                // Remove items that went off screen
+                if (item.x + item.width < 0) {
+                    items.splice(i, 1);
                 }
             }
         }
 
-        function generateTacos() {
-            if (Math.random() < 0.03) {
-                let taco = {
-                    x: CANVAS_WIDTH,
-                    y: Math.random() * (CANVAS_HEIGHT - 60) + 30,
-                    width: 25,
-                    height: 25,
-                    points: 1
-                };
-                tacos.push(taco);
+        function updateEnemies() {
+            for (let i = enemies.length - 1; i >= 0; i--) {
+                let enemy = enemies[i];
+                enemy.x -= gameSpeed * 1.2;
+                
+                // Simple enemy AI
+                if (enemy.type === 'asteroid') {
+                    enemy.rotation += 0.1;
+                } else if (enemy.type === 'ufo') {
+                    enemy.y += Math.sin(enemy.x * 0.01) * 0.5;
+                }
+                
+                // Remove enemies that went off screen
+                if (enemy.x + enemy.width < 0) {
+                    enemies.splice(i, 1);
+                }
             }
+        }
+
+        function updateParticles() {
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let particle = particles[i];
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+                particle.life--;
+                particle.alpha = particle.life / particle.maxLife;
+                
+                if (particle.life <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+        }
+
+        function generateGameObjects() {
+            // Generate items
+            if (Math.random() < 0.03) {
+                generateItem();
+            }
+            
+            // Generate enemies based on level
+            if (Math.random() < 0.01 + level * 0.005) {
+                generateEnemy();
+            }
+            
+            // Generate powerups (rare)
+            if (Math.random() < 0.005) {
+                generatePowerup();
+            }
+        }
+
+        function generateItem() {
+            let itemType = Math.random();
+            let item = {
+                x: canvas.width,
+                width: 25,
+                height: 25,
+                type: itemType < 0.5 ? 'taco' : itemType < 0.8 ? 'star' : 'coin'
+            };
+            
+            // Set position and value based on type
+            if (item.type === 'taco') {
+                item.y = GROUND_Y - 40 - Math.random() * 100;
+                item.points = 50;
+                item.emoji = '🌮';
+            } else if (item.type === 'star') {
+                item.y = GROUND_Y - 60 - Math.random() * 80;
+                item.points = 100;
+                item.emoji = '⭐';
+            } else {
+                item.y = GROUND_Y - 30 - Math.random() * 60;
+                item.points = 20;
+                item.emoji = '🪙';
+            }
+            
+            items.push(item);
+        }
+
+        function generateEnemy() {
+            let enemyType = Math.random() < 0.7 ? 'asteroid' : 'ufo';
+            let enemy = {
+                x: canvas.width,
+                width: 30,
+                height: 30,
+                type: enemyType,
+                rotation: 0
+            };
+            
+            if (enemyType === 'asteroid') {
+                enemy.y = GROUND_Y - 50 - Math.random() * 120;
+                enemy.emoji = '☄️';
+                enemy.damage = 1;
+            } else {
+                enemy.y = GROUND_Y - 80 - Math.random() * 100;
+                enemy.emoji = '🛸';
+                enemy.damage = 1;
+            }
+            
+            enemies.push(enemy);
+        }
+
+        function generatePowerup() {
+            let powerupType = ['shield', 'speed', 'multiJump', 'magnet'][Math.floor(Math.random() * 4)];
+            let powerup = {
+                x: canvas.width,
+                y: GROUND_Y - 60 - Math.random() * 80,
+                width: 25,
+                height: 25,
+                type: powerupType,
+                duration: 300 + Math.random() * 300
+            };
+            
+            switch (powerupType) {
+                case 'shield':
+                    powerup.emoji = '🛡️';
+                    break;
+                case 'speed':
+                    powerup.emoji = '⚡';
+                    break;
+                case 'multiJump':
+                    powerup.emoji = '🦘';
+                    break;
+                case 'magnet':
+                    powerup.emoji = '🧲';
+                    break;
+            }
+            
+            powerups.push(powerup);
         }
 
         function checkCollisions() {
-            for (let i = tacos.length - 1; i >= 0; i--) {
-                let taco = tacos[i];
+            // Item collisions
+            for (let i = items.length - 1; i >= 0; i--) {
+                let item = items[i];
                 
-                if (player.x < taco.x + taco.width &&
-                    player.x + player.width > taco.x &&
-                    player.y < taco.y + taco.height &&
-                    player.y + player.height > taco.y) {
+                if (isColliding(player, item)) {
+                    score += item.points;
+                    levelProgress += item.points;
+                    totalItemsCollected++;
                     
-                    score += taco.points;
-                    tacos.splice(i, 1);
+                    addParticles(item.x + item.width/2, item.y + item.height/2, 'collect');
+                    items.splice(i, 1);
+                    
+                    checkAchievements();
                 }
             }
-        }
-
-        function checkWinCondition() {
-            if (score >= WIN_CONDITION) {
-                gameComplete = true;
-                gameRunning = false;
-                
-                if (score > highScore) {
-                    highScore = score;
-                    localStorage.setItem('spaceshipTacosHighScore', highScore.toString());
-                    updateHighScoreDisplay();
-                }
-                
-                document.getElementById('gameCompleteScreen').classList.remove('hidden');
-                document.getElementById('startButton').disabled = false;
-                
-                if (gameLoop) {
-                    clearInterval(gameLoop);
-                    gameLoop = null;
-                }
-            }
-        }
-
-        function draw() {
-            ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             
-            drawSpace();
-            drawPlayer();
-            drawTacos();
+            // Enemy collisions
+            if (player.invulnerable === 0) {
+                for (let i = enemies.length - 1; i >= 0; i--) {
+                    let enemy = enemies[i];
+                    
+                    if (isColliding(player, enemy)) {
+                        if (activePowerups.shield > 0) {
+                            addParticles(enemy.x + enemy.width/2, enemy.y + enemy.height/2, 'explosion');
+                            enemies.splice(i, 1);
+                        } else {
+                            life -= enemy.damage;
+                            player.invulnerable = 120; // 2 seconds
+                            addParticles(player.x + player.width/2, player.y + player.height/2, 'damage');
+                            enemies.splice(i, 1);
+                            
+                            if (life <= 0) {
+                                gameOver();
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Powerup collisions
+            for (let i = powerups.length - 1; i >= 0; i--) {
+                let powerup = powerups[i];
+                
+                if (isColliding(player, powerup)) {
+                    activePowerups[powerup.type] = powerup.duration;
+                    addParticles(powerup.x + powerup.width/2, powerup.y + powerup.height/2, 'powerup');
+                    powerups.splice(i, 1);
+                    
+                    showAchievement(`${powerup.emoji} パワーアップ獲得!`);
+                }
+            }
         }
 
-        function drawSpace() {
-            const gradient = ctx.createRadialGradient(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 0, CANVAS_WIDTH/2, CANVAS_HEIGHT/2, CANVAS_WIDTH/2);
-            gradient.addColorStop(0, '#000428');
-            gradient.addColorStop(1, '#004e92');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        function isColliding(obj1, obj2) {
+            return obj1.x < obj2.x + obj2.width &&
+                   obj1.x + obj1.width > obj2.x &&
+                   obj1.y < obj2.y + obj2.height &&
+                   obj1.y + obj1.height > obj2.y;
         }
 
-        function drawPlayer() {
-            ctx.font = '24px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('🚀', player.x + player.width/2, player.y + player.height - 2);
+        function addParticles(x, y, type) {
+            const count = type === 'explosion' ? 15 : 8;
+            const colors = {
+                jump: ['#ff6b35', '#f7931e'],
+                collect: ['#ffd700', '#ffff00'],
+                explosion: ['#ff4444', '#ff8800'],
+                damage: ['#ff0000', '#cc0000'],
+                powerup: ['#00ff88', '#0088ff']
+            };
+            
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 6,
+                    vy: (Math.random() - 0.5) * 6,
+                    color: colors[type][Math.floor(Math.random() * colors[type].length)],
+                    life: 20 + Math.random() * 20,
+                    maxLife: 40,
+                    alpha: 1
+                });
+            }
         }
 
-        function drawTacos() {
-            tacos.forEach(taco => {
-                ctx.font = '20px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText('🌮', taco.x + taco.width/2, taco.y + taco.height - 2);
+        function updateGameProgression() {
+            // Level progression
+            if (levelProgress >= levelTargetScore) {
+                levelComplete();
+            }
+            
+            // Increase difficulty
+            gameSpeed = Math.min(2 + level * 0.3, 6);
+        }
+
+        function levelComplete() {
+            gamePaused = true;
+            level++;
+            const bonus = level * 500;
+            score += bonus;
+            levelProgress = 0;
+            levelTargetScore += 500 + level * 200;
+            
+            document.getElementById('levelBonus').textContent = bonus;
+            document.getElementById('levelCompleteScreen').classList.remove('hidden');
+            
+            showAchievement(`レベル ${level-1} クリア!`);
+        }
+
+        function nextLevel() {
+            document.getElementById('levelCompleteScreen').classList.add('hidden');
+            gamePaused = false;
+            
+            // Add some beneficial effects for new level
+            life = Math.min(life + 1, 5);
+            player.invulnerable = 60;
+        }
+
+        function updateUI() {
+            document.getElementById('gameScore').textContent = score;
+            document.getElementById('gameLevel').textContent = level;
+            document.getElementById('gameLife').textContent = '❤️'.repeat(life);
+            document.getElementById('levelProgress').style.width = (levelProgress / levelTargetScore * 100) + '%';
+            
+            // Update powerup display
+            const powerupDiv = document.getElementById('powerups');
+            powerupDiv.innerHTML = '';
+            Object.keys(activePowerups).forEach(key => {
+                if (activePowerups[key] > 0) {
+                    const indicator = document.createElement('span');
+                    indicator.className = 'powerup-indicator';
+                    indicator.textContent = `${getPowerupEmoji(key)} ${Math.ceil(activePowerups[key]/60)}s`;
+                    powerupDiv.appendChild(indicator);
+                }
             });
         }
 
-        function drawInitialScreen() {
-            ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-            drawSpace();
-            
-            player.y = CANVAS_HEIGHT - player.height - 20;
-            drawPlayer();
-            
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-            
-            ctx.fillStyle = 'white';
-            ctx.font = 'bold 18px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('🚀 TACO PLANET', CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 30);
-            
-            ctx.font = '14px Arial';
-            ctx.fillText('宇宙船でタコス100個収集', CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
-            ctx.fillText('ミッション開始ボタンを押そう！', CANVAS_WIDTH/2, CANVAS_HEIGHT/2 + 20);
+        function getPowerupEmoji(type) {
+            const emojis = { shield: '🛡️', speed: '⚡', multiJump: '🦘', magnet: '🧲' };
+            return emojis[type] || '✨';
         }
 
-        function updateScoreDisplay() {
-            document.getElementById('gameScore').textContent = score;
+        function checkAchievements() {
+            if (totalJumps === 100 && !achievements.includes('jumper')) {
+                achievements.push('jumper');
+                showAchievement('ジャンプマスター: 100回ジャンプ達成!');
+            }
+            
+            if (totalItemsCollected === 50 && !achievements.includes('collector')) {
+                achievements.push('collector');
+                showAchievement('コレクター: 50個アイテム収集!');
+            }
+            
+            if (score >= 5000 && !achievements.includes('scorer')) {
+                achievements.push('scorer');
+                showAchievement('ハイスコアラー: 5000点達成!');
+            }
+        }
+
+        function showAchievement(text) {
+            const popup = document.getElementById('achievementPopup');
+            document.getElementById('achievementText').textContent = text;
+            popup.classList.add('show');
+            
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 3000);
+        }
+
+        function draw() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw background
+            drawBackground();
+            
+            // Draw ground
+            drawGround();
+            
+            // Draw particles (background layer)
+            drawParticles();
+            
+            // Draw game objects
+            drawItems();
+            drawEnemies();
+            drawPowerups();
+            
+            // Draw player
+            drawPlayer();
+            
+            // Draw UI overlays
+            if (gamePaused && gameRunning) {
+                drawPauseScreen();
+            }
+        }
+
+        function drawBackground() {
+            // Space gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#0a0a1a');
+            gradient.addColorStop(0.5, '#1a1a2e');
+            gradient.addColorStop(1, '#16213e');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Stars
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            for (let i = 0; i < 20; i++) {
+                const x = (i * 37 + Date.now() * 0.01) % canvas.width;
+                const y = (i * 23) % (canvas.height - 50);
+                ctx.fillRect(x, y, 1, 1);
+            }
+        }
+
+        function drawGround() {
+            ctx.fillStyle = '#2a2a3a';
+            ctx.fillRect(0, GROUND_Y, canvas.width, canvas.height - GROUND_Y);
+            
+            // Ground details
+            ctx.fillStyle = '#ff6b35';
+            ctx.fillRect(0, GROUND_Y, canvas.width, 2);
+        }
+
+        function drawPlayer() {
+            ctx.save();
+            
+            // Invulnerability effect
+            if (player.invulnerable > 0 && Math.floor(player.invulnerable / 10) % 2) {
+                ctx.globalAlpha = 0.5;
+            }
+            
+            // Draw spaceship
+            ctx.fillStyle = '#ff6b35';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            
+            // Draw rocket emoji
+            ctx.font = '24px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('🚀', player.x + player.width/2, player.y + player.height - 2);
+            
+            // Charge indicator
+            if (player.charging) {
+                const chargeRadius = 5 + (player.chargeTime / MAX_CHARGE_TIME) * 15;
+                ctx.strokeStyle = '#ffff00';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(player.x + player.width/2, player.y + player.height/2, chargeRadius, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            ctx.restore();
+        }
+
+        function drawItems() {
+            items.forEach(item => {
+                ctx.font = '20px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(item.emoji, item.x + item.width/2, item.y + item.height - 2);
+            });
+        }
+
+        function drawEnemies() {
+            enemies.forEach(enemy => {
+                ctx.save();
+                ctx.translate(enemy.x + enemy.width/2, enemy.y + enemy.height/2);
+                ctx.rotate(enemy.rotation || 0);
+                ctx.font = '24px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(enemy.emoji, 0, 6);
+                ctx.restore();
+            });
+        }
+
+        function drawPowerups() {
+            powerups.forEach(powerup => {
+                // Glow effect
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#00ff88';
+                
+                ctx.font = '20px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(powerup.emoji, powerup.x + powerup.width/2, powerup.y + powerup.height - 2);
+                
+                ctx.shadowBlur = 0;
+            });
+        }
+
+        function drawParticles() {
+            particles.forEach(particle => {
+                ctx.save();
+                ctx.globalAlpha = particle.alpha;
+                ctx.fillStyle = particle.color || '#ffffff';
+                ctx.fillRect(particle.x - 1, particle.y - 1, 2, 2);
+                ctx.restore();
+            });
+        }
+
+        function drawPauseScreen() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 24px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('⏸️ ポーズ中', canvas.width/2, canvas.height/2);
+        }
+
+        function drawInitialScreen() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackground();
+            drawGround();
+            
+            // Draw player at starting position
+            player.y = GROUND_Y - player.height;
+            drawPlayer();
+            
+            // Draw start message
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 20px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('🚀 TACO PLANET', canvas.width/2, canvas.height/2 - 30);
+            ctx.fillText('アドベンチャー', canvas.width/2, canvas.height/2 - 5);
+            
+            ctx.font = '14px Arial';
+            ctx.fillText('宇宙船を操縦してタコスを集めよう!', canvas.width/2, canvas.height/2 + 25);
+            ctx.fillText('レベルアップして新しいエリアを探索!', canvas.width/2, canvas.height/2 + 45);
         }
 
         function updateHighScoreDisplay() {
             document.getElementById('highScore').textContent = highScore;
         }
 
-        function addNewSNS() {
-            const name = prompt('SNSアカウント名を入力してください (例: @username):');
-            const url = prompt('URLを入力してください:');
+        function gameOver() {
+            gameRunning = false;
+            if (gameLoop) {
+                clearInterval(gameLoop);
+                gameLoop = null;
+            }
             
-            if (name && url) {
-                const snsContainer = document.querySelector('.space-y-3');
-                const newSNS = document.createElement('a');
-                newSNS.href = url;
-                newSNS.target = '_blank';
-                newSNS.className = 'sns-button text-white p-4 rounded-lg flex items-center justify-center w-full block';
-                newSNS.innerHTML = `
-                    <i class="fas fa-link mr-3 text-xl"></i>
-                    <span class="font-semibold">${name}</span>
-                `;
-                
-                snsContainer.appendChild(newSNS);
+            // Update high score
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('spaceAdventureHighScore', highScore.toString());
+                updateHighScoreDisplay();
+                showAchievement('🏆 新記録達成!');
+            }
+            
+            // Show game over screen
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('finalLevel').textContent = level;
+            document.getElementById('gameOverScreen').classList.remove('hidden');
+            document.getElementById('startButton').disabled = false;
+            document.getElementById('pauseButton').disabled = true;
+        }
+
+        // Profile image upload functionality
+        function uploadProfileImage() {
+            document.getElementById('profileImageInput').click();
+        }
+
+        function handleProfileImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'profile-image';
+                    
+                    const avatar = document.getElementById('profileAvatar');
+                    avatar.innerHTML = '';
+                    avatar.appendChild(img);
+                    
+                    // Save to localStorage
+                    localStorage.setItem('profileImage', e.target.result);
+                };
+                reader.readAsDataURL(file);
             }
         }
+
+        // Load saved profile image
+        window.addEventListener('load', function() {
+            const savedImage = localStorage.getItem('profileImage');
+            if (savedImage) {
+                const img = document.createElement('img');
+                img.src = savedImage;
+                img.className = 'profile-image';
+                
+                const avatar = document.getElementById('profileAvatar');
+                avatar.innerHTML = '';
+                avatar.appendChild(img);
+            }
+        });
     </script>
 </body>
 </html>
