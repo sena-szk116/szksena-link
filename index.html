@@ -35,7 +35,8 @@
         .game-canvas {
             border-radius: 15px;
             border: 3px solid #8D6E63;
-            background: #87CEEB;
+            background: radial-gradient(ellipse at center, #000428 0%, #004e92 100%);
+            position: relative;
         }
         
         .add-sns-btn {
@@ -65,28 +66,19 @@
             border-radius: 50%;
         }
         
-        .profile-avatar:hover {
-            transform: scale(1.05);
-            transition: all 0.3s ease;
-        }
-        
-        .upload-overlay {
+        .profile-avatar:hover::after {
+            content: '📷';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 50%;
-            display: none;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 0.8rem;
-        }
-        
-        .profile-avatar:hover .upload-overlay {
-            display: flex;
+            font-size: 1.5rem;
+            border-radius: 50%;
         }
         
         .event-placeholder {
@@ -100,18 +92,58 @@
             flex-direction: column;
             color: #FF6B35;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .event-placeholder:hover {
-            background: rgba(255, 107, 53, 0.2);
-            transform: scale(1.02);
+            position: relative;
         }
         
         .event-image {
-            max-width: 100%;
+            width: 100%;
+            max-width: 400px;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        
+        .spaceship {
+            font-size: 24px;
+            filter: drop-shadow(0 0 10px #00ffff);
+        }
+        
+        .taco-item {
+            font-size: 18px;
+            filter: drop-shadow(0 0 5px #ffff00);
+        }
+        
+        .game-complete {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            animation: celebrateGlow 1s infinite alternate;
+        }
+        
+        @keyframes celebrateGlow {
+            0% { box-shadow: 0 0 20px rgba(76, 175, 80, 0.5); }
+            100% { box-shadow: 0 0 30px rgba(76, 175, 80, 0.8); }
         }
         
         @media (max-width: 768px) {
@@ -130,13 +162,10 @@
             <div class="profile-avatar" onclick="uploadProfileImage()">
                 <span id="profileEmoji">🌮</span>
                 <img id="profileImage" style="display: none;">
-                <div class="upload-overlay">
-                    <i class="fas fa-camera"></i>
-                </div>
             </div>
-            <input type="file" id="profileImageInput" accept="image/*" style="display: none;">
             <h1 class="text-2xl font-bold text-gray-800 mb-1">鈴木 聖直</h1>
             <p class="text-gray-600 text-sm">Suzuki Sena</p>
+            <input type="file" id="profileImageInput" accept="image/*" style="display: none;" onchange="handleProfileImage(this)">
         </div>
 
         <!-- SNS Links Section -->
@@ -171,42 +200,41 @@
                 イベント情報
             </h2>
             
-            <div id="eventFlyer" class="event-placeholder" onclick="uploadEventImage()">
+            <div id="eventFlyer" class="event-placeholder" onclick="uploadFlyerImage()">
                 <i class="fas fa-image text-4xl mb-2"></i>
                 <p class="text-center font-semibold">フライヤー画像をアップロード</p>
-                <p class="text-sm text-center mt-1">タップして画像を選択</p>
+                <p class="text-sm text-center mt-1">タップして画像を追加</p>
             </div>
-            <input type="file" id="eventImageInput" accept="image/*" style="display: none;">
-            
-            <button id="deleteEventBtn" onclick="deleteEventImage()" class="mt-3 bg-red-500 text-white px-4 py-2 rounded-lg text-sm" style="display: none;">
-                <i class="fas fa-trash mr-1"></i>画像を削除
-            </button>
+            <input type="file" id="flyerImageInput" accept="image/*" style="display: none;" onchange="handleFlyerImage(this)">
         </div>
 
-        <!-- Tacos Run Game Section -->
+        <!-- Spaceship Taco Collection Game Section -->
         <div class="tacos-card p-6">
             <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                <i class="fas fa-gamepad mr-2 text-orange-500"></i>
-                🌮 タコスラン - 3段ジャンプで飛べ！
+                <i class="fas fa-rocket mr-2 text-orange-500"></i>
+                🚀 TACO PLANET - 宇宙船でタコス収集！
             </h2>
             
             <div class="text-center mb-4">
-                <div class="bg-orange-100 rounded-lg p-3 mb-3">
-                    <p class="text-sm text-orange-800"><strong>遊び方:</strong></p>
-                    <p class="text-xs text-orange-700">画面をタップしてジャンプ！最大3回まで連続ジャンプ可能</p>
+                <div class="bg-blue-100 rounded-lg p-3 mb-3">
+                    <p class="text-sm text-blue-800"><strong>ミッション:</strong> タコス100個収集でクリア！</p>
+                    <p class="text-xs text-blue-700">宇宙船をタップして浮遊、タコスを集めよう</p>
                 </div>
                 
                 <div class="flex justify-between text-sm bg-gray-100 rounded-lg p-2 mb-3">
-                    <span>スコア: <span id="gameScore" class="font-bold text-orange-600">0</span></span>
-                    <span>ハイスコア: <span id="highScore" class="font-bold text-orange-600">0</span></span>
+                    <span>収集: <span id="gameScore" class="font-bold text-orange-600">0</span>/100</span>
+                    <span>記録: <span id="highScore" class="font-bold text-orange-600">0</span></span>
                 </div>
             </div>
 
-            <canvas id="gameCanvas" class="game-canvas w-full" width="350" height="200"></canvas>
+            <div style="position: relative;">
+                <canvas id="gameCanvas" class="game-canvas w-full" width="350" height="250"></canvas>
+                <div class="stars" id="stars"></div>
+            </div>
             
             <div class="mt-4 flex flex-wrap gap-2 justify-center">
                 <button id="startButton" onclick="startGame()" class="bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-semibold">
-                    <i class="fas fa-play mr-1"></i>ゲーム開始
+                    <i class="fas fa-play mr-1"></i>ミッション開始
                 </button>
                 <button id="resetButton" onclick="resetGame()" class="bg-red-500 text-white px-4 py-2 rounded-lg text-sm font-semibold">
                     <i class="fas fa-redo mr-1"></i>リセット
@@ -215,22 +243,40 @@
             
             <div id="gameOverScreen" class="text-center mt-4 hidden">
                 <div class="bg-red-100 rounded-lg p-3">
-                    <h3 class="font-bold text-red-800">ゲームオーバー!</h3>
-                    <p class="text-sm text-red-700">最終スコア: <span id="finalScore" class="font-bold"></span></p>
+                    <h3 class="font-bold text-red-800">ミッション失敗</h3>
+                    <p class="text-sm text-red-700">収集数: <span id="finalScore" class="font-bold"></span></p>
+                </div>
+            </div>
+            
+            <div id="gameCompleteScreen" class="text-center mt-4 hidden">
+                <div class="game-complete">
+                    <h3 class="font-bold text-xl">🎉 ミッション完了！</h3>
+                    <p class="text-lg">TACO PLANET制覇！</p>
+                    <p class="text-sm">収集タコス: 100個</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Profile Image Management
+        // Initialize saved images on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedImages();
+            initializeGame();
+            createStars();
+        });
+
+        // Image Upload Functions
         function uploadProfileImage() {
             document.getElementById('profileImageInput').click();
         }
 
-        document.getElementById('profileImageInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
+        function uploadFlyerImage() {
+            document.getElementById('flyerImageInput').click();
+        }
+
+        function handleProfileImage(input) {
+            if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const imageData = e.target.result;
@@ -240,54 +286,45 @@
                     
                     // Save to localStorage
                     localStorage.setItem('profileImage', imageData);
-                };
-                reader.readAsDataURL(file);
+                }
+                reader.readAsDataURL(input.files[0]);
             }
-        });
-
-        // Event Image Management
-        function uploadEventImage() {
-            document.getElementById('eventImageInput').click();
         }
 
-        document.getElementById('eventImageInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
+        function handleFlyerImage(input) {
+            if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const imageData = e.target.result;
-                    const eventFlyer = document.getElementById('eventFlyer');
-                    eventFlyer.innerHTML = `<img src="${imageData}" alt="イベントフライヤー" class="event-image">`;
-                    eventFlyer.onclick = null;
-                    eventFlyer.style.cursor = 'default';
-                    
-                    document.getElementById('deleteEventBtn').style.display = 'inline-block';
+                    const flyerDiv = document.getElementById('eventFlyer');
+                    flyerDiv.innerHTML = `
+                        <img src="${imageData}" alt="イベントフライヤー" class="event-image">
+                        <button onclick="removeFlyerImage()" class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm">×</button>
+                    `;
+                    flyerDiv.classList.remove('event-placeholder');
                     
                     // Save to localStorage
-                    localStorage.setItem('eventImage', imageData);
-                };
-                reader.readAsDataURL(file);
+                    localStorage.setItem('flyerImage', imageData);
+                }
+                reader.readAsDataURL(input.files[0]);
             }
-        });
-
-        function deleteEventImage() {
-            const eventFlyer = document.getElementById('eventFlyer');
-            eventFlyer.innerHTML = `
-                <i class="fas fa-image text-4xl mb-2"></i>
-                <p class="text-center font-semibold">フライヤー画像をアップロード</p>
-                <p class="text-sm text-center mt-1">タップして画像を選択</p>
-            `;
-            eventFlyer.onclick = uploadEventImage;
-            eventFlyer.style.cursor = 'pointer';
-            
-            document.getElementById('deleteEventBtn').style.display = 'none';
-            
-            // Remove from localStorage
-            localStorage.removeItem('eventImage');
         }
 
-        // Load saved images on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        function removeFlyerImage() {
+            const flyerDiv = document.getElementById('eventFlyer');
+            flyerDiv.innerHTML = `
+                <i class="fas fa-image text-4xl mb-2"></i>
+                <p class="text-center font-semibold">フライヤー画像をアップロード</p>
+                <p class="text-sm text-center mt-1">タップして画像を追加</p>
+            `;
+            flyerDiv.classList.add('event-placeholder');
+            flyerDiv.onclick = uploadFlyerImage;
+            
+            // Remove from localStorage
+            localStorage.removeItem('flyerImage');
+        }
+
+        function loadSavedImages() {
             // Load profile image
             const savedProfileImage = localStorage.getItem('profileImage');
             if (savedProfileImage) {
@@ -295,82 +332,96 @@
                 document.getElementById('profileImage').style.display = 'block';
                 document.getElementById('profileEmoji').style.display = 'none';
             }
-            
-            // Load event image
-            const savedEventImage = localStorage.getItem('eventImage');
-            if (savedEventImage) {
-                const eventFlyer = document.getElementById('eventFlyer');
-                eventFlyer.innerHTML = `<img src="${savedEventImage}" alt="イベントフライヤー" class="event-image">`;
-                eventFlyer.onclick = null;
-                eventFlyer.style.cursor = 'default';
-                document.getElementById('deleteEventBtn').style.display = 'inline-block';
+
+            // Load flyer image
+            const savedFlyerImage = localStorage.getItem('flyerImage');
+            if (savedFlyerImage) {
+                const flyerDiv = document.getElementById('eventFlyer');
+                flyerDiv.innerHTML = `
+                    <img src="${savedFlyerImage}" alt="イベントフライヤー" class="event-image">
+                    <button onclick="removeFlyerImage()" class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm">×</button>
+                `;
+                flyerDiv.classList.remove('event-placeholder');
             }
-        });
+        }
 
         // Game Variables
         let canvas, ctx;
         let gameRunning = false;
         let gameLoop = null;
         let score = 0;
-        let highScore = parseInt(localStorage.getItem('tacosHighScore') || '0');
+        let highScore = parseInt(localStorage.getItem('spaceshipTacosHighScore') || '0');
+        let gameComplete = false;
         
         // Game Objects
         let player = {
             x: 50,
-            y: 150,
-            width: 30,
+            y: 200,
+            width: 40,
             height: 30,
             velocityY: 0,
-            jumpCount: 0,
-            maxJumps: 3,
-            onGround: true
+            thrustCount: 0,
+            maxThrust: 3,
+            floating: false
         };
         
-        let items = [];
+        let tacos = [];
         let gameSpeed = 2;
+        let gameTime = 0;
         
         // Game Constants
-        const GRAVITY = 0.6;
-        const JUMP_FORCE = -10;
-        const GROUND_Y = 170;
+        const GRAVITY = 0.4;
+        const THRUST_FORCE = -8;
         const CANVAS_WIDTH = 350;
-        const CANVAS_HEIGHT = 200;
+        const CANVAS_HEIGHT = 250;
+        const WIN_CONDITION = 100;
 
-        // Initialize Game
-        document.addEventListener('DOMContentLoaded', function() {
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 30; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 2 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function initializeGame() {
             canvas = document.getElementById('gameCanvas');
             ctx = canvas.getContext('2d');
             
-            // Set canvas size
             canvas.width = CANVAS_WIDTH;
             canvas.height = CANVAS_HEIGHT;
             
-            // Touch events for mobile
             canvas.addEventListener('touchstart', handleTouch, { passive: false });
             canvas.addEventListener('click', handleClick);
             
             updateHighScoreDisplay();
             drawInitialScreen();
-        });
+        }
 
         function handleTouch(e) {
             e.preventDefault();
-            if (gameRunning) {
-                jump();
+            if (gameRunning && !gameComplete) {
+                thrust();
             }
         }
         
         function handleClick(e) {
-            if (gameRunning) {
-                jump();
+            if (gameRunning && !gameComplete) {
+                thrust();
             }
         }
 
-        function jump() {
-            if (player.jumpCount < player.maxJumps) {
-                player.velocityY = JUMP_FORCE;
-                player.jumpCount++;
-                player.onGround = false;
+        function thrust() {
+            if (player.thrustCount < player.maxThrust) {
+                player.velocityY = THRUST_FORCE;
+                player.thrustCount++;
+                player.floating = false;
             }
         }
 
@@ -378,25 +429,28 @@
             if (gameRunning) return;
             
             gameRunning = true;
+            gameComplete = false;
             score = 0;
             gameSpeed = 2;
-            items = [];
+            tacos = [];
+            gameTime = 0;
             
-            // Reset player
             player.x = 50;
-            player.y = GROUND_Y - player.height;
+            player.y = 200;
             player.velocityY = 0;
-            player.jumpCount = 0;
-            player.onGround = true;
+            player.thrustCount = 0;
+            player.floating = false;
             
             document.getElementById('startButton').disabled = true;
             document.getElementById('gameOverScreen').classList.add('hidden');
+            document.getElementById('gameCompleteScreen').classList.add('hidden');
             
-            gameLoop = setInterval(updateGame, 1000/60); // 60 FPS
+            gameLoop = setInterval(updateGame, 1000/60);
         }
 
         function resetGame() {
             gameRunning = false;
+            gameComplete = false;
             if (gameLoop) {
                 clearInterval(gameLoop);
                 gameLoop = null;
@@ -406,171 +460,153 @@
             updateScoreDisplay();
             document.getElementById('startButton').disabled = false;
             document.getElementById('gameOverScreen').classList.add('hidden');
+            document.getElementById('gameCompleteScreen').classList.add('hidden');
             
             drawInitialScreen();
         }
 
         function updateGame() {
-            if (!gameRunning) return;
+            if (!gameRunning || gameComplete) return;
             
-            // Update player physics
+            gameTime++;
+            
             updatePlayer();
-            
-            // Update items
-            updateItems();
-            
-            // Generate new items
-            generateItems();
-            
-            // Check collisions
+            updateTacos();
+            generateTacos();
             checkCollisions();
+            checkWinCondition();
             
-            // Update score
-            score += 1;
             updateScoreDisplay();
-            
-            // Draw everything
             draw();
         }
 
         function updatePlayer() {
-            // Apply gravity
-            if (!player.onGround) {
+            if (!player.floating) {
                 player.velocityY += GRAVITY;
             }
             
-            // Update position
             player.y += player.velocityY;
             
-            // Ground collision
-            if (player.y >= GROUND_Y - player.height) {
-                player.y = GROUND_Y - player.height;
+            // Screen boundaries
+            if (player.y < 0) {
+                player.y = 0;
                 player.velocityY = 0;
-                player.jumpCount = 0;
-                player.onGround = true;
+            }
+            if (player.y > CANVAS_HEIGHT - player.height) {
+                player.y = CANVAS_HEIGHT - player.height;
+                player.velocityY = 0;
+                player.thrustCount = 0;
+                player.floating = false;
             }
         }
 
-        function updateItems() {
-            for (let i = items.length - 1; i >= 0; i--) {
-                items[i].x -= gameSpeed;
+        function updateTacos() {
+            for (let i = tacos.length - 1; i >= 0; i--) {
+                tacos[i].x -= gameSpeed;
                 
-                // Remove items that went off screen
-                if (items[i].x + items[i].width < 0) {
-                    items.splice(i, 1);
+                if (tacos[i].x + tacos[i].width < 0) {
+                    tacos.splice(i, 1);
                 }
             }
         }
 
-        function generateItems() {
-            if (Math.random() < 0.02) { // 2% chance each frame
-                let itemType = Math.random();
-                let item = {
+        function generateTacos() {
+            if (Math.random() < 0.03) {
+                let taco = {
                     x: CANVAS_WIDTH,
-                    width: 20,
-                    height: 20,
-                    type: itemType < 0.6 ? 'coin' : itemType < 0.9 ? 'taco' : 'star'
+                    y: Math.random() * (CANVAS_HEIGHT - 60) + 30,
+                    width: 25,
+                    height: 25,
+                    points: 1
                 };
-                
-                // Set position and value based on type
-                if (item.type === 'coin') {
-                    item.y = GROUND_Y - 40 - Math.random() * 60;
-                    item.points = 10;
-                    item.emoji = '🪙';
-                } else if (item.type === 'taco') {
-                    item.y = GROUND_Y - 80 - Math.random() * 40;
-                    item.points = 50;
-                    item.emoji = '🌮';
-                } else {
-                    item.y = GROUND_Y - 120 - Math.random() * 20;
-                    item.points = 100;
-                    item.emoji = '⭐';
-                }
-                
-                items.push(item);
+                tacos.push(taco);
             }
         }
 
         function checkCollisions() {
-            for (let i = items.length - 1; i >= 0; i--) {
-                let item = items[i];
+            for (let i = tacos.length - 1; i >= 0; i--) {
+                let taco = tacos[i];
                 
-                // Simple rectangle collision
-                if (player.x < item.x + item.width &&
-                    player.x + player.width > item.x &&
-                    player.y < item.y + item.height &&
-                    player.y + player.height > item.y) {
+                if (player.x < taco.x + taco.width &&
+                    player.x + player.width > taco.x &&
+                    player.y < taco.y + taco.height &&
+                    player.y + player.height > taco.y) {
                     
-                    // Collect item
-                    score += item.points;
-                    items.splice(i, 1);
+                    score += taco.points;
+                    tacos.splice(i, 1);
+                }
+            }
+        }
+
+        function checkWinCondition() {
+            if (score >= WIN_CONDITION) {
+                gameComplete = true;
+                gameRunning = false;
+                
+                if (score > highScore) {
+                    highScore = score;
+                    localStorage.setItem('spaceshipTacosHighScore', highScore.toString());
+                    updateHighScoreDisplay();
+                }
+                
+                document.getElementById('gameCompleteScreen').classList.remove('hidden');
+                document.getElementById('startButton').disabled = false;
+                
+                if (gameLoop) {
+                    clearInterval(gameLoop);
+                    gameLoop = null;
                 }
             }
         }
 
         function draw() {
-            // Clear canvas
             ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             
-            // Draw simple background
-            ctx.fillStyle = '#87CEEB';
-            ctx.fillRect(0, 0, CANVAS_WIDTH, GROUND_Y);
-            
-            // Draw ground
-            ctx.fillStyle = '#8D6E63';
-            ctx.fillRect(0, GROUND_Y, CANVAS_WIDTH, CANVAS_HEIGHT - GROUND_Y);
-            
-            // Draw player
+            drawSpace();
             drawPlayer();
-            
-            // Draw items
-            drawItems();
+            drawTacos();
+        }
+
+        function drawSpace() {
+            const gradient = ctx.createRadialGradient(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 0, CANVAS_WIDTH/2, CANVAS_HEIGHT/2, CANVAS_WIDTH/2);
+            gradient.addColorStop(0, '#000428');
+            gradient.addColorStop(1, '#004e92');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         }
 
         function drawPlayer() {
-            ctx.fillStyle = '#FF6B35';
-            ctx.fillRect(player.x, player.y, player.width, player.height);
-            
-            // Draw taco emoji
             ctx.font = '24px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('🌮', player.x + player.width/2, player.y + player.height - 5);
+            ctx.fillText('🚀', player.x + player.width/2, player.y + player.height - 2);
         }
 
-        function drawItems() {
-            items.forEach(item => {
-                ctx.font = '18px Arial';
+        function drawTacos() {
+            tacos.forEach(taco => {
+                ctx.font = '20px Arial';
                 ctx.textAlign = 'center';
-                ctx.fillText(item.emoji, item.x + item.width/2, item.y + item.height - 2);
+                ctx.fillText('🌮', taco.x + taco.width/2, taco.y + taco.height - 2);
             });
         }
 
         function drawInitialScreen() {
             ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            drawSpace();
             
-            // Draw simple background
-            ctx.fillStyle = '#87CEEB';
-            ctx.fillRect(0, 0, CANVAS_WIDTH, GROUND_Y);
-            
-            // Draw ground
-            ctx.fillStyle = '#8D6E63';
-            ctx.fillRect(0, GROUND_Y, CANVAS_WIDTH, CANVAS_HEIGHT - GROUND_Y);
-            
-            // Draw player at starting position
-            player.y = GROUND_Y - player.height;
+            player.y = CANVAS_HEIGHT - player.height - 20;
             drawPlayer();
             
-            // Draw start message
             ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
             ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             
             ctx.fillStyle = 'white';
             ctx.font = 'bold 18px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('🌮 タコスラン', CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 20);
+            ctx.fillText('🚀 TACO PLANET', CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 30);
             
             ctx.font = '14px Arial';
-            ctx.fillText('ゲーム開始ボタンを押してね！', CANVAS_WIDTH/2, CANVAS_HEIGHT/2 + 10);
+            ctx.fillText('宇宙船でタコス100個収集', CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
+            ctx.fillText('ミッション開始ボタンを押そう！', CANVAS_WIDTH/2, CANVAS_HEIGHT/2 + 20);
         }
 
         function updateScoreDisplay() {
@@ -581,27 +617,6 @@
             document.getElementById('highScore').textContent = highScore;
         }
 
-        function gameOver() {
-            gameRunning = false;
-            if (gameLoop) {
-                clearInterval(gameLoop);
-                gameLoop = null;
-            }
-            
-            // Update high score
-            if (score > highScore) {
-                highScore = score;
-                localStorage.setItem('tacosHighScore', highScore.toString());
-                updateHighScoreDisplay();
-            }
-            
-            // Show game over screen
-            document.getElementById('finalScore').textContent = score;
-            document.getElementById('gameOverScreen').classList.remove('hidden');
-            document.getElementById('startButton').disabled = false;
-        }
-
-        // SNS Management
         function addNewSNS() {
             const name = prompt('SNSアカウント名を入力してください (例: @username):');
             const url = prompt('URLを入力してください:');
